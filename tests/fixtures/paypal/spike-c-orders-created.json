@@ -1,0 +1,18 @@
+[
+  {
+    "orderId": "7A446955VC678501H",
+    "status": "CREATED",
+    "approveLink": "https://www.sandbox.paypal.com/checkoutnow?token=7A446955VC678501H",
+    "item": "Vintage Mechanical Watch (for Dispute)",
+    "amount": "120.00",
+    "referenceId": "ORD-DISPUTE-1"
+  },
+  {
+    "orderId": "2YK30688P62200025",
+    "status": "CREATED",
+    "approveLink": "https://www.sandbox.paypal.com/checkoutnow?token=2YK30688P62200025",
+    "item": "Wireless Headphones (for Refund)",
+    "amount": "45.00",
+    "referenceId": "ORD-REFUND-1"
+  }
+]

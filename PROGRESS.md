@@ -26,9 +26,9 @@ Stretch (only after everything else is green): make-offer, extra dispute reasons
 Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 
 ### Step 1: Spike (now to 12:00 IST, 11 Nov)
-- [ ] S1.A PayPal sandbox accounts and REST app, Disputes enabled
-- [ ] S1.B OAuth token and an authenticated read
-- [ ] S1.C Create, approve, and capture an order
+- [x] S1.A PayPal sandbox accounts and REST app, Disputes enabled
+- [x] S1.B OAuth token and an authenticated read
+- [~] S1.C Create, approve, and capture an order (Antigravity IN PROGRESS)
 - [ ] S1.D Create a dispute (route A API, route B buyer wallet)
 - [ ] S1.E Fetch dispute as merchant; confirm `WAITING_FOR_SELLER_RESPONSE` and links
 - [ ] S1.F Provide evidence (multipart, small PDF, tracking fields)
@@ -95,4 +95,5 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 13:46 IST · S1.A, S1.B · Verified sandbox OAuth token and authenticated read on disputes API · scripts/spike/*, tests/fixtures/paypal/* · live sandbox calls
 - 2026-11-11 · DOCS · Created README, ARCHITECTURE, AGENTS, PROGRESS, SPIKE · root `*.md` · n/a

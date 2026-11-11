@@ -11,9 +11,9 @@ Rules:
 
 | Step | What | Result | Notes (errors, ids, route used) | Fixture saved |
 |---|---|---|---|---|
-| A | Sandbox Business and Personal accounts; REST app with Disputes enabled | not run | | |
-| B | OAuth token; authenticated read works | not run | | |
-| C | Create, buyer-approve, and capture an order (save order and capture IDs) | not run | | |
+| A | Sandbox Business and Personal accounts; REST app with Disputes enabled | pass | App ID APP-5L998566K05455532 with disputes scopes confirmed | - |
+| B | OAuth token; authenticated read works | pass | Token fetched; scopes include disputes/refund/shipping; GET /v1/customer/disputes returned 200 | spike-b-token.json, spike-b-disputes-read.json |
+| C | Create, buyer-approve, and capture an order (save order and capture IDs) | not run | Orders 7A446955VC678501H and 2YK30688P62200025 created; awaiting buyer approval | spike-c-orders-created.json |
 | D | Create a dispute. Route A: API. Route B: buyer wallet | not run | Route used: | |
 | E | Fetch the dispute as the merchant; status is `WAITING_FOR_SELLER_RESPONSE`; links present | not run | | |
 | F | Provide evidence (multipart, small PDF, carrier and tracking fields) | not run | | |
