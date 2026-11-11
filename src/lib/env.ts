@@ -11,7 +11,7 @@ const envSchema = z.object({
   LLM_PROVIDER: z.enum(['groq', 'anthropic', 'mock']).default('mock'),
   GROQ_API_KEY: z.string().optional().default(''),
   LLM_API_KEY: z.string().optional().default(''),
-  LLM_MODEL: z.string().default('llama-3.3-70b-versatile'),
+  LLM_MODEL: z.string().default('qwen/qwen3.8-27b'),
   APP_BASE_URL: z.string().default('http://localhost:3000'),
   DEMO_MODE: z.preprocess((val) => val === 'true' || val === true || val === '1', z.boolean()).default(true),
 });
