@@ -8,3 +8,4 @@ describe('Supabase client module', () => {
     expect(client).toBeNull();
   });
 });
+
