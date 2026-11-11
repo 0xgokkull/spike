@@ -1,7 +1,7 @@
 import type { PolicyRules, PolicyClause, Reason } from './types';
 
 export function matchClause(policy: PolicyRules, clauseId: string): PolicyClause | null {
-  return policy.clauses.find((c) => c.id === clauseId) ?? null;
+  return policy?.clauses?.find((c) => c.id === clauseId) ?? null;
 }
 
 export function isEligibleForAutoRefund(
@@ -14,3 +14,4 @@ export function isEligibleForAutoRefund(
   }
   return policy.autoRefundReasons.includes(reason);
 }
+
