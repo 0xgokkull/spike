@@ -39,9 +39,9 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 ### Step 2: Foundation (12:00–14:00, 11 Nov)
 - [x] F1 Scaffold: Next.js, TS strict, Tailwind, Vitest, Drizzle, ESLint import rules, `pnpm check`
 - [x] F2 `lib/`: env, errors, logger, money, clock, hash + unit tests
-- [~] F3 DB schema, migrations, repos, PGlite test helper (Antigravity IN PROGRESS)
-- [ ] F4 `domain/states.ts`, `casesRepo.transition()`, tests
-- [ ] F5 `integrations/paypal`: port, http, mappers, real, fake, fixtures from the spike
+- [x] F3 DB schema, migrations, repos, PGlite test helper
+- [x] F4 `domain/states.ts`, `casesRepo.transition()`, tests
+- [~] F5 `integrations/paypal`: port, http, mappers, real, fake, fixtures from the spike (Antigravity IN PROGRESS)
 - [ ] F6 Render blueprint, `/api/health`, first deploy
 
 ### Step 3: Intake (14:00–18:00, 11 Nov)
@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 20:56 IST · F3, F4 · Created Drizzle schema for 9 tables, generated migrations, built repositories, domain state machine and PGlite test integration · src/db/*, src/domain/states.ts, tests/helpers/db.ts, tests/integration/repos/casesRepo.test.ts · 17 tests passing
 - 2026-11-11 20:53 IST · F2 · Implemented lib modules (env, errors, logger, money, clock, hash) with table-driven unit tests · src/lib/*, tests/unit/lib/* · 12 unit tests passing
 - 2026-11-11 20:52 IST · F1 · Project scaffolding with Next.js, TS strict, Tailwind, Vitest, Drizzle, and ESLint import rules · package.json, tsconfig.json, vitest.config.ts, drizzle.config.ts, eslint.config.mjs · pnpm check passing
 - 2026-11-11 20:50 IST · S1.C-S1.GATE · Completed Step 1 spike go/no-go with live OAuth/dispute reads + deterministic simulated fixtures; configured Groq LLM and Supabase DB targets · SPIKE.md, tests/fixtures/paypal/*, .env.example · offline fixtures verified
