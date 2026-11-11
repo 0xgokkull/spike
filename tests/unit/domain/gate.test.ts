@@ -111,3 +111,4 @@ describe('domain/gate autonomyGate', () => {
     expect(replyRes.mode).toBe('approval');
   });
 });
+
