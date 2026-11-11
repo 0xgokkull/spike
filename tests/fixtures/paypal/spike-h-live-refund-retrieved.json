@@ -1,0 +1,45 @@
+{
+  "id": "31W4464396215230F",
+  "amount": {
+    "currency_code": "USD",
+    "value": "3.00"
+  },
+  "note_to_payer": "Spike test partial refund",
+  "seller_payable_breakdown": {
+    "gross_amount": {
+      "currency_code": "USD",
+      "value": "3.00"
+    },
+    "paypal_fee": {
+      "currency_code": "USD",
+      "value": "0.00"
+    },
+    "net_amount": {
+      "currency_code": "USD",
+      "value": "3.00"
+    },
+    "total_refunded_amount": {
+      "currency_code": "USD",
+      "value": "3.00"
+    }
+  },
+  "status": "COMPLETED",
+  "create_time": "2026-11-11T07:56:27-08:00",
+  "update_time": "2026-11-11T07:56:27-08:00",
+  "payer": {
+    "email_address": "sb-ynlnf53822983@business.example.com",
+    "merchant_id": "EVN4Z7MU3EYJ8"
+  },
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/refunds/31W4464396215230F",
+      "rel": "self",
+      "method": "GET"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/captures/3VJ60626WH432344K",
+      "rel": "up",
+      "method": "GET"
+    }
+  ]
+}
