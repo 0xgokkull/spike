@@ -51,3 +51,4 @@ export function autonomyGate(proposal: Proposal, ctx: GateContext): GateResult {
     reasons,
   };
 }
+
