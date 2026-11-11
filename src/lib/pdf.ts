@@ -57,3 +57,4 @@ export async function renderDeliveryReceipt(order: DeliveryReceiptOrderFacts): P
   const pdfBytes = await pdfDoc.save();
   return Buffer.from(pdfBytes);
 }
+
