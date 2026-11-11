@@ -20,3 +20,4 @@ export function getExecutor(type: ActionType): ActionExecutor {
   }
   return executor;
 }
+
