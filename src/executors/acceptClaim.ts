@@ -22,3 +22,4 @@ export const acceptClaimExecutor: ActionExecutor<AcceptClaimInput> = {
     });
   },
 };
+
