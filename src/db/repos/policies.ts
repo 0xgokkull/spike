@@ -26,3 +26,4 @@ export const policiesRepo = {
     return created;
   },
 };
+
