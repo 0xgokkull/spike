@@ -4,3 +4,4 @@ export function idempotencyKey(parts: (string | number | boolean | null | undefi
   const normalized = parts.map((p) => (p === null || p === undefined ? '' : String(p))).join('|');
   return createHash('sha256').update(normalized).digest('hex');
 }
+
