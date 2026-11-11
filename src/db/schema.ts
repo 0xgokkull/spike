@@ -132,3 +132,4 @@ export const app_state = pgTable('app_state', {
   key: text('key').primaryKey(),
   value: jsonb('value').notNull(),
 });
+
