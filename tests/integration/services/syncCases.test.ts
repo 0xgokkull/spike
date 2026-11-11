@@ -38,3 +38,4 @@ describe('syncCases service', () => {
     expect(casesAfterSecond.length).toBe(allCases.length);
   });
 });
+
