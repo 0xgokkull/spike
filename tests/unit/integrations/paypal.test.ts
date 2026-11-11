@@ -58,3 +58,4 @@ describe('PayPal integration', () => {
     expect(settle.refs.outcome).toBe('RESOLVED_SELLER_FAVOUR');
   });
 });
+

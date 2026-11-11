@@ -22,3 +22,4 @@ describe('simulated clock', () => {
     expect(clock.getOffsetDays()).toBe(3);
   });
 });
+

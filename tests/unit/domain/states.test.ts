@@ -39,3 +39,4 @@ describe('domain/states state machine', () => {
     expect(isActionable('snoozed', '2026-11-15', '2026-11-11')).toBe(false); // future date is not actionable
   });
 });
+

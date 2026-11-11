@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string().default('postgresql://postgres:postgres@localhost:5432/resolution_desk'),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().optional().default(''),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional().default(''),
   PAYPAL_MODE: z.enum(['sandbox', 'fake']).default('fake'),
   PAYPAL_CLIENT_ID: z.string().optional().default(''),
   PAYPAL_CLIENT_SECRET: z.string().optional().default(''),
@@ -26,3 +28,4 @@ function loadEnv(): Env {
 }
 
 export const env: Env = loadEnv();
+

@@ -36,3 +36,4 @@ describe('money utilities', () => {
     expect(formatMoney(0)).toBe('$0.00');
   });
 });
+

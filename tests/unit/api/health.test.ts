@@ -48,3 +48,4 @@ describe('/api/health route and route handler', () => {
     expect(json.error.code).toBe('NOT_FOUND');
   });
 });
+
