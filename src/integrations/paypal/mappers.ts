@@ -69,3 +69,4 @@ export function mapDisputeDetail(raw: any, simulated: boolean = false): DisputeD
     links: raw.links || [],
   };
 }
+
