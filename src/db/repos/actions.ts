@@ -47,6 +47,10 @@ export const actionsRepo = {
     return updated ?? null;
   },
 
+  async listByCase(db: DbClient, caseId: string) {
+    return db.select().from(actions).where(eq(actions.case_id, caseId));
+  },
+
   async listUnacknowledgedAuto(db: DbClient) {
     return db
       .select()
