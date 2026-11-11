@@ -24,3 +24,4 @@ export interface ActionExecutor<TInput = any> {
   readonly type: ActionType;
   run(input: TInput, ctx: ExecutionContext): Promise<ActionResult>;
 }
+
