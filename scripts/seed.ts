@@ -135,3 +135,4 @@ seed().catch((err) => {
   logger.error('Seeding failed', { error: err.message, stack: err.stack });
   process.exit(1);
 });
+
