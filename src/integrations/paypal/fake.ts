@@ -16,6 +16,14 @@ export class FakePayPal implements PayPalPort {
     this.disputes.set(disputeFixture.dispute_id, disputeFixture);
   }
 
+  addDispute(dispute: any): void {
+    this.disputes.set(dispute.dispute_id, dispute);
+  }
+
+  clearDisputes(): void {
+    this.disputes.clear();
+  }
+
   async listDisputes(_query?: { status?: string }): Promise<DisputeSummary[]> {
     return Array.from(this.disputes.values()).map((d) => mapDisputeDetail(d, true));
   }
