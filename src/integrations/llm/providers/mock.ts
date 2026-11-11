@@ -2,6 +2,7 @@ import type { LlmPort } from '../port';
 
 export class MockLlm implements LlmPort {
   private customResponse?: string;
+  private responseQueue: string[] = [];
 
   constructor(customResponse?: string) {
     this.customResponse = customResponse;
@@ -11,7 +12,15 @@ export class MockLlm implements LlmPort {
     this.customResponse = response;
   }
 
+  setNextResponse(response: string) {
+    this.responseQueue.push(response);
+  }
+
   async generate(input: { system: string; input: string }): Promise<string> {
+    if (this.responseQueue.length > 0) {
+      return this.responseQueue.shift()!;
+    }
+
     if (this.customResponse) {
       return this.customResponse;
     }
