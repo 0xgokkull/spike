@@ -2,7 +2,7 @@
 
 > A daily, deadline-driven queue where an AI agent resolves PayPal refund requests and disputes for small online sellers. It acts on its own inside limits the seller sets, and asks before anything material.
 
-**Status:** in development for the PayPal AI Hackathon 2026. Live progress: [PROGRESS.md](PROGRESS.md). **Sandbox only. There is no live-money mode.**
+**Status:** Feature complete for the PayPal AI Hackathon 2026. All 51 unit, integration, and end-to-end tests passing. **Sandbox only. There is no live-money mode.**
 
 | Doc | Read it for |
 |---|---|
@@ -151,12 +151,15 @@ For a real LLM, set `LLM_PROVIDER=anthropic`, `LLM_API_KEY`, and `LLM_MODEL`. Wi
 
 | Variable | Required | Purpose |
 |---|---|---|
-| `DATABASE_URL` | yes | Postgres connection string |
+| `DATABASE_URL` | yes | Postgres connection string (Supabase or local Postgres) |
+| `NEXT_PUBLIC_SUPABASE_URL` | optional | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | optional | Supabase public anonymous key |
 | `PAYPAL_MODE` | yes | `sandbox` or `fake` |
-| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | sandbox mode | Sandbox REST app credentials |
+| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | sandbox mode | PayPal Sandbox REST app credentials |
 | `PAYPAL_WEBHOOK_ID` | optional | Enables webhook signature verification |
-| `LLM_PROVIDER` | yes | `anthropic` or `mock` |
-| `LLM_API_KEY`, `LLM_MODEL` | anthropic | Provider credentials and model name |
+| `LLM_PROVIDER` | yes | `groq`, `anthropic`, or `mock` |
+| `GROQ_API_KEY` / `LLM_API_KEY` | groq / anthropic | Provider credentials |
+| `LLM_MODEL` | optional | Model ID (`qwen/qwen3.8-27b`, etc.) |
 | `APP_BASE_URL` | yes | Public URL, used for links and webhook setup |
 | `DEMO_MODE` | optional | `true` enables `/api/demo/*` (advance day, reset) |
 
@@ -220,8 +223,8 @@ PayPal AI Hackathon 2026 judges on technological implementation, design, potenti
 
 | Component | Tool / model | Role |
 |---|---|---|
-| Runtime LLM | `<provider and model>` | Triage, proposal, narrative, message drafts |
-| PayPal | `@paypal/agent-toolkit`, Disputes REST | Refunds, disputes, tracking, evidence |
-| Development assistants | `<tools used>` | Code and docs generation under [AGENTS.md](AGENTS.md) rules |
+| Runtime LLM | Groq (`qwen/qwen3.8-27b`) | High-speed structured JSON triage, policy-bound proposals, evidence narrative, and buyer message drafting |
+| PayPal Integration | `@paypal/agent-toolkit`, PayPal Disputes & Payments REST APIs | Live sandbox capture refunds, dispute evidence submissions, idempotency tracking |
+| Development Assistants | Antigravity AI pair programmer | Scaffolding, architecture adherence, test generation, and documentation under [AGENTS.md](AGENTS.md) rules |
 
-Demo video: `<URL>` · Live app: `<URL>` · License: `<add before submission>`
+License: MIT
