@@ -13,7 +13,7 @@ export class GroqLlm implements LlmPort {
       throw new AppError('LLM_ERROR', 'Missing GROQ_API_KEY for Groq provider');
     }
     this.client = new Groq({ apiKey: key });
-    this.model = model || env.LLM_MODEL || 'llama-3.3-70b-versatile';
+    this.model = model || env.LLM_MODEL || 'qwen/qwen3.8-27b';
   }
 
   async generate(options: {
@@ -43,3 +43,4 @@ export class GroqLlm implements LlmPort {
     }
   }
 }
+
