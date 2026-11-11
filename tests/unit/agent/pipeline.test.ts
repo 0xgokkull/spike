@@ -123,3 +123,4 @@ describe('agent/pipeline runAgent', () => {
     expect(systemPromptSeen).not.toContain(sensitiveBuyerMessage);
   });
 });
+
