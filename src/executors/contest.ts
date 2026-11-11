@@ -27,3 +27,4 @@ export const contestExecutor: ActionExecutor<ContestInput> = {
     });
   },
 };
+
