@@ -14,3 +14,4 @@ You MUST respond with valid JSON matching this schema:
   "buyerClaim": string (max 300 chars),
   "requestedOutcome": "refund" | "replacement" | "info" | "unknown"
 }`;
+
