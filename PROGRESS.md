@@ -77,8 +77,8 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [ ] U5 Demo controls (advance day, reset) and `SimulatedLabel`
 
 ### Step 7: End-to-end (16:00–18:00, 12 Nov)
-- [ ] V1 `tests/e2e/demo.test.ts` passes
-- [ ] V2 Manual full run on seeded data; fix blockers only
+- [x] V1 `tests/e2e/demo.test.ts` passes (Antigravity)
+- [x] V2 Manual full run on seeded data; fix blockers only (Antigravity)
 
 ### Step 8: Docs and judge-run (18:00–20:00, 12 Nov)
 - [ ] D1 README final (status line, URLs, disclosure table), `.env.example` complete
@@ -97,6 +97,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 23:58 IST · V1, V2 · End-to-end 3-minute demo loop test covering dispute intake, auto-refund, contest approval with PDF evidence, snooze, clock advance, and Day Close gate · tests/e2e/demo.test.ts, src/integrations/*, src/db/repos/actions.ts · 51 tests passing
 - 2026-11-11 23:47 IST · U5 · Completed main queue page, root layout, deep link case page, and DemoControls · src/app/*, src/ui/components/DemoControls.tsx · 50 tests passing
 - 2026-11-11 23:45 IST · U4 · Completed Day Close page: DayCloseGate, DayCloseGrid, AckList, and /close route · src/ui/components/*, src/app/close/page.tsx, tests/unit/ui/dayClose.test.tsx · 50 tests passing
 - 2026-11-11 23:42 IST · U3 · Implemented CaseDrawer, ProvenancePanel, EvidenceChecklist, ActionBar with Edit/Snooze dialogs, and EventTimeline · src/ui/components/*, tests/unit/ui/* · 47 tests passing
