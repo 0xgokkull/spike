@@ -39,7 +39,7 @@ export async function runAgent(
     logger.warn('LLM triage failed, using fallback triage', { error: err.message });
     triage = {
       reason: ctx.reason,
-      buyerClaim: ctx.buyerMessage.slice(0, 200),
+      buyerClaim: (ctx.buyerMessage || '').slice(0, 200),
       requestedOutcome: 'unknown',
     };
   }
@@ -73,3 +73,4 @@ export async function runAgent(
     origin,
   };
 }
+
