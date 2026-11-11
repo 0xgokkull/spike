@@ -1,0 +1,16 @@
+{
+  "id": "31W4464396215230F",
+  "status": "COMPLETED",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/refunds/31W4464396215230F",
+      "rel": "self",
+      "method": "GET"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/captures/3VJ60626WH432344K",
+      "rel": "up",
+      "method": "GET"
+    }
+  ]
+}
