@@ -31,3 +31,4 @@ export const eventsRepo = {
       .orderBy(desc(events.at), desc(events.id));
   },
 };
+
