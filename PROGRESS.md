@@ -61,14 +61,14 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [x] A7 `agent/pipeline.ts` and `services/processCase.ts`
 
 ### Step 5: Executors (08:00–12:00, 12 Nov)
-- [~] E1 `services/executeAction.ts` (idempotency, transitions, events, `exec_failed`) (Antigravity IN PROGRESS)
-- [ ] E2 `executors/refund.ts`
-- [ ] E3 `executors/acceptClaim.ts`
-- [ ] E4 `executors/contest.ts` with `lib/pdf.ts` and `agent/evidencePackage.ts`
-- [ ] E5 `executors/reply.ts` and post-execution status sync
+- [x] E1 `services/executeAction.ts` (idempotency, transitions, events, `exec_failed`)
+- [x] E2 `executors/refund.ts`
+- [x] E3 `executors/acceptClaim.ts`
+- [x] E4 `executors/contest.ts` with `lib/pdf.ts` and `agent/evidencePackage.ts`
+- [x] E5 `executors/reply.ts` and post-execution status sync
 
 ### Step 6: UI (12:00–16:00, 12 Nov). Feature freeze at 16:00
-- [ ] U1 Layout, Tailwind, primitives
+- [~] U1 Layout, Tailwind, primitives (Antigravity IN PROGRESS)
 - [ ] U2 `QueueGrid` (AG Grid) and `SyncBar`
 - [ ] U3 `CaseDrawer`, `ProvenancePanel`, `EvidenceChecklist`, `ActionBar`, dialogs
 - [ ] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay`
@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 21:42 IST · E1-E5 · Implemented executeAction service with idempotency keying, all 4 executors (refund, contest, acceptClaim, reply), PDF generation, evidence packaging · src/executors/*, src/services/executeAction.ts, src/lib/pdf.ts, src/agent/evidencePackage.ts · 41 tests passing
 - 2026-11-11 21:40 IST · A1-A7 · Implemented Agent pipeline, Groq LLM integration, triage, proposal, fallback, autonomy gate, provenance builder, and processCase service · src/agent/*, src/domain/*, src/services/processCase.ts · 38 tests passing
 - 2026-11-11 21:35 IST · I1-I5 · Completed Step 3 Intake: syncCases, seed script, handleWebhook, /api/sync endpoint, wakeSnoozed service · src/services/*, src/app/api/sync/* · 26 tests passing
 - 2026-11-11 21:00 IST · F5, F6 · Implemented PayPalPort (real & fake adapters, mappers, http), Render blueprint, route handler and /api/health endpoint · src/integrations/paypal/*, src/lib/route.ts, src/app/api/health/*, render.yaml · 23 tests passing
