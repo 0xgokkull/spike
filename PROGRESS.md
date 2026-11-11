@@ -68,7 +68,7 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [x] E5 `executors/reply.ts` and post-execution status sync
 
 ### Step 6: UI (12:00–16:00, 12 Nov). Feature freeze at 16:00
-- [~] U1 Layout, Tailwind, primitives (Antigravity IN PROGRESS)
+- [x] U1 Layout, Tailwind, primitives (Antigravity)
 - [ ] U2 `QueueGrid` (AG Grid) and `SyncBar`
 - [ ] U3 `CaseDrawer`, `ProvenancePanel`, `EvidenceChecklist`, `ActionBar`, dialogs
 - [ ] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay`
@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 23:18 IST · U1 · Completed UI primitives (StatusBadge, ModeBadge, SimulatedLabel, DeadlineChip, Money, Button), global styles, and live Groq LLM validation · src/ui/primitives/*, src/app/globals.css · 41 tests passing
 - 2026-11-11 21:42 IST · E1-E5 · Implemented executeAction service with idempotency keying, all 4 executors (refund, contest, acceptClaim, reply), PDF generation, evidence packaging · src/executors/*, src/services/executeAction.ts, src/lib/pdf.ts, src/agent/evidencePackage.ts · 41 tests passing
 - 2026-11-11 21:40 IST · A1-A7 · Implemented Agent pipeline, Groq LLM integration, triage, proposal, fallback, autonomy gate, provenance builder, and processCase service · src/agent/*, src/domain/*, src/services/processCase.ts · 38 tests passing
 - 2026-11-11 21:35 IST · I1-I5 · Completed Step 3 Intake: syncCases, seed script, handleWebhook, /api/sync endpoint, wakeSnoozed service · src/services/*, src/app/api/sync/* · 26 tests passing
