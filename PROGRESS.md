@@ -45,14 +45,14 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [x] F6 Render blueprint, `/api/health`, first deploy
 
 ### Step 3: Intake (14:00–18:00, 11 Nov)
-- [~] I1 `syncCases` (disputes to cases, order link, `available_actions`) (Antigravity IN PROGRESS)
-- [ ] I2 `scripts/seed.ts` (policy, orders, refund requests; fake and sandbox ids)
-- [ ] I3 Webhook verify, dedupe, `handleWebhook`
-- [ ] I4 `/api/sync` and cron wiring
-- [ ] I5 `wakeSnoozed`
+- [x] I1 `syncCases` (disputes to cases, order link, `available_actions`)
+- [x] I2 `scripts/seed.ts` (policy, orders, refund requests; fake and sandbox ids)
+- [x] I3 Webhook verify, dedupe, `handleWebhook`
+- [x] I4 `/api/sync` and cron wiring
+- [x] I5 `wakeSnoozed`
 
 ### Step 4: Agent (18:00–23:00, 11 Nov)
-- [ ] A1 `LlmPort`, `generateStructured`, `MockLlm`, anthropic provider
+- [~] A1 `LlmPort`, `generateStructured`, `MockLlm`, anthropic & groq providers (Antigravity IN PROGRESS)
 - [ ] A2 `domain/policy.ts`, `domain/evidence.ts`
 - [ ] A3 `agent/triage.ts`
 - [ ] A4 `agent/propose.ts`, `agent/fallback.ts`, `domain/validate.ts`
@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 21:35 IST · I1-I5 · Completed Step 3 Intake: syncCases, seed script, handleWebhook, /api/sync endpoint, wakeSnoozed service · src/services/*, src/app/api/sync/* · 26 tests passing
 - 2026-11-11 21:00 IST · F5, F6 · Implemented PayPalPort (real & fake adapters, mappers, http), Render blueprint, route handler and /api/health endpoint · src/integrations/paypal/*, src/lib/route.ts, src/app/api/health/*, render.yaml · 23 tests passing
 - 2026-11-11 20:56 IST · F3, F4 · Created Drizzle schema for 9 tables, generated migrations, built repositories, domain state machine and PGlite test integration · src/db/*, src/domain/states.ts, tests/helpers/db.ts, tests/integration/repos/casesRepo.test.ts · 17 tests passing
 - 2026-11-11 20:53 IST · F2 · Implemented lib modules (env, errors, logger, money, clock, hash) with table-driven unit tests · src/lib/*, tests/unit/lib/* · 12 unit tests passing
