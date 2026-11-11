@@ -70,3 +70,4 @@ export function deterministicProposal(ctx: FallbackContext): Proposal {
     trackingMessageDraft: 'Thank you for reaching out. Per our store policy, return and refund requests must be initiated within 30 days of delivery.',
   };
 }
+
