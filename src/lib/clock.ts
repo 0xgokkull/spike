@@ -21,3 +21,4 @@ export const clock = {
     return this.now().toISOString().split('T')[0];
   },
 };
+
