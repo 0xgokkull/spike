@@ -119,3 +119,4 @@ describe('domain/validate validateRecommendation', () => {
     expect(res.errors[0]).toContain('Contest requires 100% evidence completeness');
   });
 });
+
