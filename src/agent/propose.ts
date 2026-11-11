@@ -20,7 +20,7 @@ export interface ProposeContext extends CaseValidationContext {
 }
 
 export async function proposeAction(llm: LlmPort, ctx: ProposeContext): Promise<Proposal> {
-  const policyClausesText = ctx.policy.clauses
+  const policyClausesText = (ctx.policy?.clauses || [])
     .map((c) => `- [${c.id}]: ${c.text}`)
     .join('\n');
 
@@ -60,3 +60,4 @@ Recommend the single best action and cite the matching policy clause:`;
     trackingMessageDraft: res.trackingMessageDraft ?? undefined,
   };
 }
+
