@@ -70,7 +70,9 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 ### Step 6: UI (12:00–16:00, 12 Nov). Feature freeze at 16:00
 - [x] U1 Layout, Tailwind, primitives (Antigravity)
 - [x] U2 `QueueGrid` (AG Grid) and `SyncBar` (Antigravity)
-- [ ] U3 `CaseDrawer`, `ProvenancePanel`, `EvidenceChecklist`, `ActionBar`, dialogs
+- [x] U3 `CaseDrawer`, `ProvenancePanel`, `EvidenceChecklist`, `ActionBar`, dialogs (Antigravity)
+- [ ] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay`
+- [ ] U5 Demo controls (advance day, reset) and `SimulatedLabel`
 - [ ] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay`
 - [ ] U5 Demo controls (advance day, reset) and `SimulatedLabel`
 
@@ -95,6 +97,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 23:42 IST · U3 · Implemented CaseDrawer, ProvenancePanel, EvidenceChecklist, ActionBar with Edit/Snooze dialogs, and EventTimeline · src/ui/components/*, tests/unit/ui/* · 47 tests passing
 - 2026-11-11 23:36 IST · U2 · Implemented AG Grid QueueGrid and SyncBar · src/ui/components/QueueGrid.tsx, src/ui/components/SyncBar.tsx · 41 tests passing
 - 2026-11-11 23:18 IST · U1 · Completed UI primitives (StatusBadge, ModeBadge, SimulatedLabel, DeadlineChip, Money, Button), global styles, and live Groq LLM validation · src/ui/primitives/*, src/app/globals.css · 41 tests passing
 - 2026-11-11 21:42 IST · E1-E5 · Implemented executeAction service with idempotency keying, all 4 executors (refund, contest, acceptClaim, reply), PDF generation, evidence packaging · src/executors/*, src/services/executeAction.ts, src/lib/pdf.ts, src/agent/evidencePackage.ts · 41 tests passing
