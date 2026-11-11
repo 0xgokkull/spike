@@ -52,16 +52,16 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [x] I5 `wakeSnoozed`
 
 ### Step 4: Agent (18:00–23:00, 11 Nov)
-- [~] A1 `LlmPort`, `generateStructured`, `MockLlm`, anthropic & groq providers (Antigravity IN PROGRESS)
-- [ ] A2 `domain/policy.ts`, `domain/evidence.ts`
-- [ ] A3 `agent/triage.ts`
-- [ ] A4 `agent/propose.ts`, `agent/fallback.ts`, `domain/validate.ts`
-- [ ] A5 `domain/gate.ts`
-- [ ] A6 `domain/provenance.ts`
-- [ ] A7 `agent/pipeline.ts` and `services/processCase.ts`
+- [x] A1 `LlmPort`, `generateStructured`, `MockLlm`, anthropic & groq providers
+- [x] A2 `domain/policy.ts`, `domain/evidence.ts`
+- [x] A3 `agent/triage.ts`
+- [x] A4 `agent/propose.ts`, `agent/fallback.ts`, `domain/validate.ts`
+- [x] A5 `domain/gate.ts`
+- [x] A6 `domain/provenance.ts`
+- [x] A7 `agent/pipeline.ts` and `services/processCase.ts`
 
 ### Step 5: Executors (08:00–12:00, 12 Nov)
-- [ ] E1 `services/executeAction.ts` (idempotency, transitions, events, `exec_failed`)
+- [~] E1 `services/executeAction.ts` (idempotency, transitions, events, `exec_failed`) (Antigravity IN PROGRESS)
 - [ ] E2 `executors/refund.ts`
 - [ ] E3 `executors/acceptClaim.ts`
 - [ ] E4 `executors/contest.ts` with `lib/pdf.ts` and `agent/evidencePackage.ts`
@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 21:40 IST · A1-A7 · Implemented Agent pipeline, Groq LLM integration, triage, proposal, fallback, autonomy gate, provenance builder, and processCase service · src/agent/*, src/domain/*, src/services/processCase.ts · 38 tests passing
 - 2026-11-11 21:35 IST · I1-I5 · Completed Step 3 Intake: syncCases, seed script, handleWebhook, /api/sync endpoint, wakeSnoozed service · src/services/*, src/app/api/sync/* · 26 tests passing
 - 2026-11-11 21:00 IST · F5, F6 · Implemented PayPalPort (real & fake adapters, mappers, http), Render blueprint, route handler and /api/health endpoint · src/integrations/paypal/*, src/lib/route.ts, src/app/api/health/*, render.yaml · 23 tests passing
 - 2026-11-11 20:56 IST · F3, F4 · Created Drizzle schema for 9 tables, generated migrations, built repositories, domain state machine and PGlite test integration · src/db/*, src/domain/states.ts, tests/helpers/db.ts, tests/integration/repos/casesRepo.test.ts · 17 tests passing

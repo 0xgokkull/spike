@@ -162,3 +162,4 @@ export interface CaseDetail extends CaseListItem {
   availableDecisions: DecisionType[];
   disabledReasons: Record<string, string>;
 }
+
