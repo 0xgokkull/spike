@@ -69,3 +69,4 @@ export function handler<TInput = unknown, TOutput = unknown>(
     }
   };
 }
+
