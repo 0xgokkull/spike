@@ -13,7 +13,7 @@ Rules:
 |---|---|---|---|---|
 | A | Sandbox Business and Personal accounts; REST app with Disputes enabled | pass | App ID APP-5L998566K05455532 with disputes scopes confirmed | - |
 | B | OAuth token; authenticated read works | pass | Token fetched; scopes include disputes/refund/shipping; GET /v1/customer/disputes returned 200 | spike-b-token.json, spike-b-disputes-read.json |
-| C | Create, buyer-approve, and capture an order (save order and capture IDs) | fallback | Order checkout token expired in sandbox; using deterministic simulated order & capture fixtures | spike-c-orders-created.json, spike-c-captured-simulated.json |
+| C | Create, buyer-approve, and capture an order (save order and capture IDs) | pass | Order 1KR42500DU8641538 approved by US sandbox buyer and captured live as 3VJ60626WH432344K ($10.00 USD) | spike-c-live-captured.json |
 | D | Create a dispute. Route A: API. Route B: buyer wallet | fallback | Using deterministic simulated dispute fixture (MERCHANDISE_OR_SERVICE_NOT_RECEIVED) | spike-d-dispute-simulated.json |
 | E | Fetch the dispute as the merchant; status is `WAITING_FOR_SELLER_RESPONSE`; links present | fallback | Simulated dispute with WAITING_FOR_SELLER_RESPONSE, provide-evidence link, accept-claim link | spike-e-dispute-simulated.json |
 | F | Provide evidence (multipart, small PDF, carrier and tracking fields) | fallback | Simulated evidence submission with delivery receipt PDF fixture | spike-f-evidence-simulated.json |
