@@ -60,3 +60,4 @@ export async function generateStructured<T>(
     throw new AppError('LLM_ERROR', `Failed to obtain valid structured output from LLM: ${err.message}`);
   }
 }
+
