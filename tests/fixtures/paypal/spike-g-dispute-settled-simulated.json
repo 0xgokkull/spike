@@ -1,0 +1,16 @@
+{
+  "dispute_id": "PP-D-SIMULATED-9871",
+  "status": "RESOLVED",
+  "dispute_life_cycle_stage": "RESOLVED",
+  "dispute_outcome": {
+    "outcome_code": "RESOLVED_SELLER_FAVOUR"
+  },
+  "seller_response_due_date": null,
+  "links": [
+    {
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-D-SIMULATED-9871",
+      "rel": "self",
+      "method": "GET"
+    }
+  ]
+}

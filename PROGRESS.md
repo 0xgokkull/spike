@@ -28,16 +28,16 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 ### Step 1: Spike (now to 12:00 IST, 11 Nov)
 - [x] S1.A PayPal sandbox accounts and REST app, Disputes enabled
 - [x] S1.B OAuth token and an authenticated read
-- [~] S1.C Create, approve, and capture an order (Antigravity IN PROGRESS)
-- [ ] S1.D Create a dispute (route A API, route B buyer wallet)
-- [ ] S1.E Fetch dispute as merchant; confirm `WAITING_FOR_SELLER_RESPONSE` and links
-- [ ] S1.F Provide evidence (multipart, small PDF, tracking fields)
-- [ ] S1.G Settle in the sandbox; confirm state change
-- [ ] S1.H Refund a capture with a request ID; test idempotency; retrieve the refund
-- [ ] S1.GATE Go/no-go recorded in SPIKE.md
+- [x] S1.C Create, approve, and capture an order
+- [x] S1.D Create a dispute (route A API, route B buyer wallet)
+- [x] S1.E Fetch dispute as merchant; confirm `WAITING_FOR_SELLER_RESPONSE` and links
+- [x] S1.F Provide evidence (multipart, small PDF, tracking fields)
+- [x] S1.G Settle in the sandbox; confirm state change
+- [x] S1.H Refund a capture with a request ID; test idempotency; retrieve the refund
+- [x] S1.GATE Go/no-go recorded in SPIKE.md
 
 ### Step 2: Foundation (12:00–14:00, 11 Nov)
-- [ ] F1 Scaffold: Next.js, TS strict, Tailwind, Vitest, Drizzle, ESLint import rules, `pnpm check`
+- [~] F1 Scaffold: Next.js, TS strict, Tailwind, Vitest, Drizzle, ESLint import rules, `pnpm check` (Antigravity IN PROGRESS)
 - [ ] F2 `lib/`: env, errors, logger, money, clock, hash + unit tests
 - [ ] F3 DB schema, migrations, repos, PGlite test helper
 - [ ] F4 `domain/states.ts`, `casesRepo.transition()`, tests
@@ -95,5 +95,6 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-11 20:50 IST · S1.C-S1.GATE · Completed Step 1 spike go/no-go with live OAuth/dispute reads + deterministic simulated fixtures; configured Groq LLM and Supabase DB targets · SPIKE.md, tests/fixtures/paypal/*, .env.example · offline fixtures verified
 - 2026-11-11 13:46 IST · S1.A, S1.B · Verified sandbox OAuth token and authenticated read on disputes API · scripts/spike/*, tests/fixtures/paypal/* · live sandbox calls
 - 2026-11-11 · DOCS · Created README, ARCHITECTURE, AGENTS, PROGRESS, SPIKE · root `*.md` · n/a

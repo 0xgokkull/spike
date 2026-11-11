@@ -1,0 +1,30 @@
+{
+  "id": "ORD-SIMULATED-WATCH-1",
+  "status": "COMPLETED",
+  "purchase_units": [
+    {
+      "reference_id": "ORD-DISPUTE-1",
+      "amount": {
+        "currency_code": "USD",
+        "value": "120.00"
+      },
+      "payments": {
+        "captures": [
+          {
+            "id": "CAP-SIMULATED-120USD",
+            "status": "COMPLETED",
+            "amount": {
+              "currency_code": "USD",
+              "value": "120.00"
+            },
+            "seller_protection": {
+              "status": "ELIGIBLE"
+            },
+            "create_time": "2026-11-10T14:00:00Z",
+            "update_time": "2026-11-10T14:00:00Z"
+          }
+        ]
+      }
+    }
+  ]
+}

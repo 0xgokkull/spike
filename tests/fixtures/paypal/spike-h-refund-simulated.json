@@ -1,0 +1,24 @@
+{
+  "id": "REF-SIMULATED-45USD",
+  "status": "COMPLETED",
+  "amount": {
+    "currency_code": "USD",
+    "value": "45.00"
+  },
+  "seller_payable_breakdown": {
+    "total_refunded_amount": {
+      "currency_code": "USD",
+      "value": "45.00"
+    }
+  },
+  "note_to_payer": "Refund approved under store policy",
+  "create_time": "2026-11-11T12:05:00Z",
+  "update_time": "2026-11-11T12:05:00Z",
+  "links": [
+    {
+      "href": "https://api-m.sandbox.paypal.com/v2/payments/refunds/REF-SIMULATED-45USD",
+      "rel": "self",
+      "method": "GET"
+    }
+  ]
+}
