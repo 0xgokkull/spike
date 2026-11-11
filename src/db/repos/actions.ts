@@ -54,3 +54,4 @@ export const actionsRepo = {
       .where(and(eq(actions.actor, 'agent_auto'), isNull(actions.acknowledged_at)));
   },
 };
+
