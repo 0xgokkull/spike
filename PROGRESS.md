@@ -1,6 +1,6 @@
 # PROGRESS
 
-> **Agents:** update this file immediately after each task (tick the box, add a changelog line). Rules: [AGENTS.md §5](AGENTS.md). Do not read other sections of the repo until your task needs them.
+> **Agents:** update this file immediately after each task (tick the box, add a changelog line). Do not read other sections of the repo until your task needs them.
 
 Deadline: **13 Nov 2026, 1:30 AM IST** (12 Nov, 12:00 pm PST). Aim to submit by 12 Nov, 11:00 PM IST.
 
@@ -94,6 +94,8 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 ## Changelog
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
+
+- 2026-11-12 22:18 IST · CLEANUP-AGENTS · Removed internal AGENTS.md and synchronized references in README.md, ARCHITECTURE.md, and PROGRESS.md · AGENTS.md, README.md, ARCHITECTURE.md, PROGRESS.md · 51 tests passing
 
 - 2026-11-12 22:02 IST · README-POLISH · Updated README.md with GitHub repository links, status badges, full architecture diagram, and PayPal Resolution Center demo walkthrough · README.md · 51 tests passing
 - 2026-11-12 21:58 IST · GRID-WIDTH-ALIGN · Fixed table column width budget to 1065px, enabled suppressHorizontalScroll, and locked consistent 460px height to eliminate shifting and right-column clipping · src/ui/components/QueueGrid.tsx · 51 tests passing
