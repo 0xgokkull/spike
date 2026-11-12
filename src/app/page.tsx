@@ -60,49 +60,57 @@ export default function QueuePage() {
 
       {/* 2. Compact Financial Overview Metrics Strip */}
       <div className="px-6 py-3 bg-white border-b border-slate-200/80 flex-shrink-0">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 shadow-2xs hover:bg-slate-50 transition-colors">
-            <div className="flex items-center justify-between text-slate-500 mb-1">
-              <span className="text-[11px] font-medium tracking-tight uppercase">Total Cases</span>
-              <Layers className="h-3.5 w-3.5 text-slate-400" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+          <div className="p-3.5 rounded-xl border border-slate-200/90 bg-gradient-to-b from-white to-slate-50/60 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all">
+            <div className="flex items-center justify-between text-slate-500 mb-1.5">
+              <span className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Total Cases</span>
+              <div className="h-6 w-6 rounded-md bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-600">
+                <Layers className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <div className="text-xl font-bold text-slate-900 tabular-nums tracking-tight">
+            <div className="text-2xl font-bold text-slate-900 tabular-nums tracking-tight">
               {totalCases}
             </div>
-            <span className="text-[10px] text-slate-400 mt-0.5 block">Active dispute queue</span>
+            <span className="text-[11px] text-slate-400 font-medium mt-0.5 block">Active dispute queue</span>
           </div>
 
-          <div className="p-3 rounded-lg border border-amber-200/80 bg-amber-50/30 shadow-2xs hover:bg-amber-50/50 transition-colors">
-            <div className="flex items-center justify-between text-amber-800 mb-1">
-              <span className="text-[11px] font-medium tracking-tight uppercase">Actionable</span>
-              <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
+          <div className="p-3.5 rounded-xl border border-amber-200/90 bg-gradient-to-b from-white to-amber-50/30 shadow-2xs hover:shadow-xs hover:border-amber-300 transition-all">
+            <div className="flex items-center justify-between text-amber-800 mb-1.5">
+              <span className="text-[11px] font-semibold tracking-wider text-amber-800 uppercase">Actionable</span>
+              <div className="h-6 w-6 rounded-md bg-amber-100/80 border border-amber-300/60 flex items-center justify-center text-amber-700">
+                <AlertTriangle className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <div className="text-xl font-bold text-amber-900 tabular-nums tracking-tight">
+            <div className="text-2xl font-bold text-amber-900 tabular-nums tracking-tight">
               {actionableCount}
             </div>
-            <span className="text-[10px] text-amber-700/80 mt-0.5 block">Needs review or decision</span>
+            <span className="text-[11px] text-amber-700/80 font-medium mt-0.5 block">Needs review or decision</span>
           </div>
 
-          <div className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 shadow-2xs hover:bg-slate-50 transition-colors">
-            <div className="flex items-center justify-between text-slate-500 mb-1">
-              <span className="text-[11px] font-medium tracking-tight uppercase">Amount at Risk</span>
-              <Clock className="h-3.5 w-3.5 text-slate-400" />
+          <div className="p-3.5 rounded-xl border border-indigo-200/80 bg-gradient-to-b from-white to-indigo-50/30 shadow-2xs hover:shadow-xs hover:border-indigo-300 transition-all">
+            <div className="flex items-center justify-between text-slate-500 mb-1.5">
+              <span className="text-[11px] font-semibold tracking-wider text-slate-600 uppercase">Amount at Risk</span>
+              <div className="h-6 w-6 rounded-md bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-indigo-600">
+                <Clock className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <div className="text-xl font-bold text-slate-900 tabular-nums tracking-tight">
+            <div className="text-2xl font-bold text-slate-900 tabular-nums tracking-tight">
               <Money cents={totalAmountAtRiskCents} />
             </div>
-            <span className="text-[10px] text-slate-400 mt-0.5 block">Total capital exposure</span>
+            <span className="text-[11px] text-slate-400 font-medium mt-0.5 block">Guarded capital exposure</span>
           </div>
 
-          <div className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 shadow-2xs hover:bg-slate-50 transition-colors">
-            <div className="flex items-center justify-between text-slate-500 mb-1">
-              <span className="text-[11px] font-medium tracking-tight uppercase">Resolved</span>
-              <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
+          <div className="p-3.5 rounded-xl border border-emerald-200/80 bg-gradient-to-b from-white to-emerald-50/30 shadow-2xs hover:shadow-xs hover:border-emerald-300 transition-all">
+            <div className="flex items-center justify-between text-emerald-800 mb-1.5">
+              <span className="text-[11px] font-semibold tracking-wider text-emerald-800 uppercase">Resolved</span>
+              <div className="h-6 w-6 rounded-md bg-emerald-100/80 border border-emerald-300/60 flex items-center justify-center text-emerald-700">
+                <CheckCircle className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <div className="text-xl font-bold text-slate-900 tabular-nums tracking-tight">
+            <div className="text-2xl font-bold text-emerald-950 tabular-nums tracking-tight">
               {resolvedCount}
             </div>
-            <span className="text-[10px] text-slate-400 mt-0.5 block">Closed or settled</span>
+            <span className="text-[11px] text-emerald-700/80 font-medium mt-0.5 block">Closed & ledger locked</span>
           </div>
         </div>
       </div>
