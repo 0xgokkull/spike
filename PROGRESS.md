@@ -95,6 +95,8 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-12 22:58 IST · REAL-PAYPAL-PURCHASE · Implemented real PayPal Sandbox Orders API integration, personal buyer account credentials checkout in PurchaseModal, and removed all SIMULATED badges from UI · src/integrations/paypal/orders.ts, src/app/api/demo/purchase/route.ts, src/ui/components/PurchaseModal.tsx, src/ui/components/QueueGrid.tsx, src/ui/components/CaseDrawer.tsx, src/lib/env.ts · 51 tests passing
+
 - 2026-11-12 22:18 IST · CLEANUP-AGENTS · Removed internal AGENTS.md and synchronized references in README.md, ARCHITECTURE.md, and PROGRESS.md · AGENTS.md, README.md, ARCHITECTURE.md, PROGRESS.md · 51 tests passing
 
 - 2026-11-12 22:02 IST · README-POLISH · Updated README.md with GitHub repository links, status badges, full architecture diagram, and PayPal Resolution Center demo walkthrough · README.md · 51 tests passing
