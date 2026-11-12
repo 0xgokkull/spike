@@ -36,13 +36,26 @@ export async function listCases(db: DbClient, bucket?: string): Promise<CaseList
     });
   }
 
+  let filteredItems = items;
+  if (bucket === 'actionable') {
+    filteredItems = items.filter((item) => isActionable(item.status, item.snoozedUntil, today));
+  } else if (bucket === 'waiting') {
+    filteredItems = items.filter((item) => item.status === 'waiting_on_paypal');
+  } else if (bucket === 'snoozed') {
+    filteredItems = items.filter(
+      (item) => item.status === 'snoozed' && (!item.snoozedUntil || item.snoozedUntil > today)
+    );
+  } else if (bucket === 'resolved') {
+    filteredItems = items.filter((item) => item.status === 'resolved' || item.status === 'closed');
+  }
+
   // Sort per ARCHITECTURE §9.7:
   // 1. Actionable first
   // 2. waiting_on_paypal second
   // 3. snoozed (future) third
   // 4. resolved/closed last
   // Inside bucket 1: deadline_at ascending (nulls last), then amount_cents descending
-  return items.sort((a, b) => {
+  return filteredItems.sort((a, b) => {
     const aActionable = isActionable(a.status, a.snoozedUntil, today);
     const bActionable = isActionable(b.status, b.snoozedUntil, today);
 
