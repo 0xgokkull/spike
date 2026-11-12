@@ -96,7 +96,7 @@ export function AckList({
                       Case #{item.caseId.slice(0, 8)}
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400">{timeStr}</span>
+                  <span suppressHydrationWarning className="text-[10px] text-slate-400">{timeStr}</span>
                 </div>
               </div>
 
