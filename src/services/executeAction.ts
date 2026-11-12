@@ -7,6 +7,7 @@ import { ordersRepo } from '@/db/repos/orders';
 import { eventsRepo } from '@/db/repos/events';
 import { getExecutor } from '@/executors/registry';
 import { idempotencyKey } from '@/lib/hash';
+import { FakePayPal } from '@/integrations/paypal';
 import { AppError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
 
@@ -73,9 +74,10 @@ export async function executeAction(
   // 4. Run executor
   const executor = getExecutor(type);
   try {
+    const paypalClient = c.simulated ? new FakePayPal() : paypal;
     const result = await executor.run(input.input, {
       caseId,
-      paypal,
+      paypal: paypalClient,
       order: {
         id: order.id,
         item: order.item,
