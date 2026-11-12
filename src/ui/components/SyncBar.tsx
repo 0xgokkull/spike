@@ -29,14 +29,14 @@ export function SyncBar({
     : lastSyncAt ? 'Recently' : 'Never';
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 bg-white px-5 py-3.5 border-b border-slate-200 shadow-sm">
+    <div className="flex flex-wrap items-center justify-between gap-4 bg-white px-6 py-3 border-b border-slate-200/80 shadow-2xs select-none">
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
-          <span className="font-semibold text-slate-800">PayPal Source:</span>
+        <div className="flex items-center gap-2 text-xs text-slate-600">
+          <span className="font-medium text-slate-500">PayPal Source:</span>
           {paypalMode === 'sandbox' ? (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-xs">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Live Sandbox
+              <span>Live Sandbox</span>
             </span>
           ) : (
             <div className="flex items-center gap-1.5">
@@ -46,11 +46,11 @@ export function SyncBar({
           )}
         </div>
 
-        <span className="text-slate-300">|</span>
+        <span className="text-slate-200 hidden sm:inline">|</span>
 
         <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <CheckCircle2 className="h-3.5 w-3.5 text-slate-400" />
-          <span>Last synced: <span suppressHydrationWarning className="font-medium text-slate-700">{formattedTime}</span></span>
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+          <span>Last synced: <span suppressHydrationWarning className="font-mono text-slate-700 font-medium">{formattedTime}</span></span>
         </div>
       </div>
 
@@ -60,10 +60,10 @@ export function SyncBar({
           size="sm"
           onClick={onSync}
           disabled={isSyncing}
-          className="flex items-center gap-1.5 text-xs"
+          className="flex items-center gap-1.5 text-xs bg-slate-900 text-white hover:bg-slate-800 border-transparent shadow-xs transition-all duration-150"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? 'animate-spin text-blue-600' : 'text-slate-600'}`} />
-          {isSyncing ? 'Syncing...' : 'Sync now'}
+          <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin text-blue-300' : 'text-slate-300'}`} />
+          <span>{isSyncing ? 'Syncing PayPal...' : 'Sync now'}</span>
         </Button>
       </div>
     </div>
