@@ -73,7 +73,7 @@ Spike is a daily, deadline-driven operations desk designed around a structured 3
 
 ---
 
-### 🚀 What's Next for Resolution Desk
+### 🚀 What's Next for Spike
 - **Multi-Tenant Authentication:** Merchant authentication with role-based access control (Admins, Reviewers).
 - **Multi-Platform Order Sync:** Direct connectors for Shopify, WooCommerce, and Stripe to auto-ingest orders and carrier webhooks.
 - **Multi-Currency Support:** Support for EUR, GBP, CAD, and real-time FX conversion handling.
@@ -87,4 +87,4 @@ Spike is a daily, deadline-driven operations desk designed around a structured 3
 |---|---|---|
 | **Runtime LLM** | Groq (`qwen/qwen3.8-27b`) | High-speed structured JSON triage, policy-bound proposals, evidence narrative synthesis, and buyer message drafting. |
 | **PayPal Tooling** | `@paypal/agent-toolkit` & PayPal REST APIs | Order capture, dispute intake, evidence attachments, and idempotent refund executions. |
-| **Development Assistant** | Antigravity AI Pair Programmer | Scaffolding, architecture adherence, test generation, and documentation under strict AGENTS.md rules. |
+| **Development Assistant** | Antigravity AI Pair Programmer | Scaffolding, architecture adherence, test generation, and documentation under system architecture rules. |
