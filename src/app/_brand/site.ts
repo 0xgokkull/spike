@@ -20,7 +20,7 @@ export const SITE = {
 } as const;
 
 export function siteUrl(): URL {
-  const raw = process.env.APP_BASE_URL || 'http://localhost:3000';
+  const raw = process.env.APP_BASE_URL || 'http://localhost:3001';
   try {
     return new URL(raw);
   } catch {
