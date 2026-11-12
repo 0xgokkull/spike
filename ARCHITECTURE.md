@@ -1,6 +1,6 @@
 # Resolution Desk: Architecture and System Design
 
-> Audience: engineers and coding agents. This file is the source of truth for structure and contracts. Keep it accurate: update rules are in [AGENTS.md §5](AGENTS.md).
+> Audience: engineers and coding agents. This file is the source of truth for structure and contracts. Keep it accurate and follow the architectural invariants defined herein.
 
 ## Contents
 
@@ -93,7 +93,6 @@ The agent and executors receive data as arguments and return results. Only servi
 resolution-desk/
 ├─ README.md                  product overview, quick start (judge-facing)
 ├─ ARCHITECTURE.md            this file
-├─ AGENTS.md                  rules for coding agents
 ├─ PROGRESS.md                task board, blockers, changelog
 ├─ SPIKE.md                   dispute spike results (A–H)
 ├─ .env.example               every env var, no secrets
