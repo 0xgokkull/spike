@@ -68,7 +68,7 @@ export function EventTimeline({ events }: EventTimelineProps) {
                     {ACTOR_LABELS[e.actor] || e.actor}
                   </span>
                 </div>
-                <span className="text-[10px] text-slate-400 font-mono">{dateStr}</span>
+                <span suppressHydrationWarning className="text-[10px] text-slate-400 font-mono">{dateStr}</span>
               </div>
 
               <div className="mt-1 text-xs text-slate-600">
