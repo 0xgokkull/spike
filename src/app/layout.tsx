@@ -4,7 +4,7 @@ import './globals.css';
 import { TopNav } from '@/ui/components/TopNav';
 
 export const metadata: Metadata = {
-  title: 'Resolution Desk | Supervised Autonomy for PayPal Disputes',
+  title: 'Spike | Supervised Autonomy for PayPal Disputes',
   description: 'Automated daily dispute & refund triage queue with supervised autonomy for PayPal sellers.',
 };
 
