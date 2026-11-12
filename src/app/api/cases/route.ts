@@ -2,6 +2,8 @@ import { handler } from '@/lib/route';
 import { listCases } from '@/services/getCases';
 import { getDb } from '@/db/client';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = handler({
   run: async (_input, req) => {
     const db = getDb();
