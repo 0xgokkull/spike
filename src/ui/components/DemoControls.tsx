@@ -54,42 +54,47 @@ export function DemoControls({ onAdvanceDay, onReset }: DemoControlsProps) {
   };
 
   return (
-    <div className="flex items-center gap-3 bg-amber-50/80 border-b border-amber-200/80 px-5 py-2 text-xs">
-      <div className="flex items-center gap-1.5 font-bold text-amber-900">
-        <Clock className="h-3.5 w-3.5 text-amber-700" />
-        <span>Demo Simulator Controls</span>
-      </div>
+    <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-amber-50/70 via-stone-50/50 to-white border-b border-amber-200/60 px-6 py-2 text-xs select-none">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300/70 shadow-xs">
+            <Clock className="h-3 w-3 text-amber-700" />
+            <span>Simulator Environment</span>
+          </span>
+        </div>
 
-      <span className="text-amber-300">|</span>
+        <span className="text-amber-200 hidden sm:inline">|</span>
 
-      <div className="flex items-center gap-2">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={handleAdvance}
-          disabled={isAdvancing || isResetting}
-          className="bg-white hover:bg-amber-100/70 border-amber-300 text-amber-900 text-[11px] py-1 px-2.5 flex items-center gap-1"
-        >
-          <FastForward className="h-3 w-3" />
-          {isAdvancing ? 'Advancing...' : 'Advance Day (+1d)'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleAdvance}
+            disabled={isAdvancing || isResetting}
+            className="bg-white hover:bg-amber-50/80 active:bg-amber-100/80 border-amber-300/80 text-amber-900 text-[11px] py-1 px-2.5 flex items-center gap-1.5 shadow-xs transition-all duration-150"
+          >
+            <FastForward className={`h-3 w-3 ${isAdvancing ? 'animate-spin text-amber-600' : 'text-amber-700'}`} />
+            <span>{isAdvancing ? 'Advancing...' : 'Advance Day (+1d)'}</span>
+          </Button>
 
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={handleReset}
-          disabled={isAdvancing || isResetting}
-          className="bg-white hover:bg-amber-100/70 border-amber-300 text-amber-900 text-[11px] py-1 px-2.5 flex items-center gap-1"
-        >
-          <RotateCcw className="h-3 w-3" />
-          {isResetting ? 'Resetting...' : 'Reset Demo State'}
-        </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleReset}
+            disabled={isAdvancing || isResetting}
+            className="bg-white hover:bg-slate-50 active:bg-slate-100 border-slate-300/80 text-slate-700 text-[11px] py-1 px-2.5 flex items-center gap-1.5 shadow-xs transition-all duration-150"
+          >
+            <RotateCcw className={`h-3 w-3 ${isResetting ? 'animate-spin text-slate-500' : 'text-slate-500'}`} />
+            <span>{isResetting ? 'Resetting...' : 'Reset Demo State'}</span>
+          </Button>
+        </div>
       </div>
 
       {statusMsg && (
-        <span className="ml-auto text-[11px] font-mono text-amber-800 bg-amber-100/60 px-2 py-0.5 rounded border border-amber-200">
-          {statusMsg}
-        </span>
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-amber-900 bg-amber-100/70 px-2.5 py-0.5 rounded-full border border-amber-200/80 animate-fade-in">
+          <span className="h-1.5 w-1.5 rounded-full bg-amber-600 animate-pulse" />
+          <span>{statusMsg}</span>
+        </div>
       )}
     </div>
   );
