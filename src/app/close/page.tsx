@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { DayCloseGate } from '@/ui/components/DayCloseGate';
 import { AckList } from '@/ui/components/AckList';
 import { DayCloseGrid, type DayCloseActionItem } from '@/ui/components/DayCloseGrid';
-import { Loader2, CheckCircle2 } from 'lucide-react';
+import { Loader2, CheckCircle2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 interface DayCloseApiResponse {
@@ -136,6 +136,20 @@ export default function DayClosePage() {
   return (
     <div className="flex-1 overflow-y-auto bg-slate-50 p-6 md:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
+        {/* Back Navigation Bar */}
+        <div className="flex items-center justify-between pb-4 border-b border-slate-200/90">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 hover:text-slate-900 px-3.5 py-2 rounded-lg bg-white border border-slate-200/90 shadow-2xs hover:shadow-xs hover:border-slate-300 active:scale-95 transition-all"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 text-slate-500" />
+            <span>Back to Dispute Queue</span>
+          </Link>
+          <span className="text-xs font-mono text-slate-400">
+            Daily Reconciliation Ledger
+          </span>
+        </div>
+
         {closeError && (
           <div className="p-4 bg-rose-50 text-rose-700 rounded-lg text-xs border border-rose-200 animate-fade-in">
             {closeError}
