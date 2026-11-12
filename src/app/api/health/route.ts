@@ -1,6 +1,8 @@
 import { handler } from '@/lib/route';
 import { env } from '@/lib/env';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = handler({
   run: async () => {
     return {
