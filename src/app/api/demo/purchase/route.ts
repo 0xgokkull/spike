@@ -127,6 +127,8 @@ function getRequestOrigin(req: Request): string {
   return env.APP_BASE_URL || 'http://localhost:3001';
 }
 
+export const dynamic = 'force-dynamic';
+
 export const POST = handler({
   inputSchema: PurchaseSchema,
   run: async (input, req) => {
