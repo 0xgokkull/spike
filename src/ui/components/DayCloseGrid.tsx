@@ -121,6 +121,7 @@ export function DayCloseGrid({ items }: DayCloseGridProps) {
       ) : (
         <div className="ag-theme-alpine w-full h-[320px]">
           <AgGridReact<DayCloseActionItem>
+            theme="legacy"
             rowData={items}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
