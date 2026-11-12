@@ -104,10 +104,14 @@ export function PurchaseModal({ isOpen, onClose, onPurchased }: PurchaseModalPro
     setError(null);
 
     try {
+      const returnUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/?scenario=${scenarioId}`
+        : undefined;
+
       const res = await fetch('/api/demo/purchase', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'create', scenario: scenarioId }),
+        body: JSON.stringify({ action: 'create', scenario: scenarioId, returnUrl }),
       });
 
       const data = await res.json();
