@@ -3,6 +3,8 @@ import { handler } from '@/lib/route';
 import { getDayCloseStatus, closeDay } from '@/services/closeDay';
 import { getDb } from '@/db/client';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = handler({
   run: async () => {
     const db = getDb();
