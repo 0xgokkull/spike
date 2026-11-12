@@ -220,3 +220,4 @@ export function PurchaseModal({ isOpen, onClose, onPurchased }: PurchaseModalPro
     </div>
   );
 }
+
