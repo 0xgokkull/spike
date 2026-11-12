@@ -1,29 +1,7 @@
-<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="spikeBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#0B132B" />
-      <stop offset="100%" stopColor="#050814" />
-    </linearGradient>
-    <linearGradient id="ppDeepLayer" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#001C66" />
-      <stop offset="100%" stopColor="#003087" />
-    </linearGradient>
-    <linearGradient id="ppCyanSpike" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#00E5FF" />
-      <stop offset="50%" stopColor="#0099FF" />
-      <stop offset="100%" stopColor="#0066CC" />
-    </linearGradient>
-    <linearGradient id="ppCoreGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#00F0FF" />
-      <stop offset="100%" stopColor="#0052FF" />
-    </linearGradient>
-  </defs>
-  <rect width="40" height="40" rx="10" fill="url(#spikeBgGrad)" />
-  <rect width="40" height="40" rx="10" stroke="rgba(0, 229, 255, 0.3)" strokeWidth="1.2" />
-  <g transform="skewX(-11) translate(5, 3)">
-    <path d="M10 8C10 6.9 10.9 6 12 6H18C22.4 6 25 8.5 25 12C25 15.2 22.8 17.5 19 17.9L16.2 18.2C15.5 18.3 15 18.9 15 19.6V26C15 27.1 14.1 28 13 28H10C8.9 28 8 27.1 8 26V10C8 8.9 8.9 8 10 8Z" fill="url(#ppDeepLayer)" />
-    <path d="M16 12C16 10.9 16.9 10 18 10H23C26.5 10 29 12.2 29 15.5C29 18.4 27 20.6 23.8 21.1L20.5 21.6C19.7 21.7 19 22.4 19 23.2V30C19 31.1 18.1 32 17 32H14C12.9 32 12 31.1 12 30V18C12 14.7 13.8 12 16 12Z" fill="url(#ppCyanSpike)" fillOpacity="0.95" />
-    <path d="M14 20L22 14L18 25L26 19" stroke="url(#ppCoreGlow)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
-    <circle cx="26" cy="19" r="1.8" fill="#FFFFFF" />
+<svg width="32" height="32" viewBox="157 150 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="157" y="150" width="1000" height="1000" rx="230" fill="#EDEDEB"/>
+  <g fill="#3A3A3A">
+    <path d="M407 278 H680 C820 278 920 390 920 540 C920 690 810 800 660 805 V600 L783 708 L632 462 L568 575 C470 590 395 560 395 500 V290 Q395 278 407 278 Z"/>
+    <path d="M395 1010 V770 C395 690 450 615 559 592 L495 705 L612 615 V1010 Q612 1022 600 1022 H407 Q395 1022 395 1010 Z"/>
   </g>
 </svg>
