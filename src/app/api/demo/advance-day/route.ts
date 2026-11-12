@@ -10,6 +10,8 @@ const AdvanceDaySchema = z.object({
   days: z.number().int().min(1).default(1),
 });
 
+export const dynamic = 'force-dynamic';
+
 export const POST = handler({
   inputSchema: AdvanceDaySchema,
   run: async (input) => {
