@@ -20,10 +20,19 @@ export const SITE = {
 } as const;
 
 export function siteUrl(): URL {
-  const raw = process.env.APP_BASE_URL || 'http://localhost:3001';
+  let raw = process.env.APP_BASE_URL;
+  if (!raw || (raw.includes('localhost') && (process.env.VERCEL_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL))) {
+    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+      raw = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    } else if (process.env.VERCEL_URL) {
+      raw = `https://${process.env.VERCEL_URL}`;
+    } else {
+      raw = 'http://localhost:3001';
+    }
+  }
   try {
     return new URL(raw);
   } catch {
-    return new URL('http://localhost:3000');
+    return new URL('http://localhost:3001');
   }
 }
