@@ -1,5 +1,18 @@
 import { z } from 'zod';
 
+function getEnvBaseUrl(): string {
+  if (process.env.APP_BASE_URL && !process.env.APP_BASE_URL.includes('localhost')) {
+    return process.env.APP_BASE_URL;
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return process.env.APP_BASE_URL || 'http://localhost:3001';
+}
+
 const envSchema = z.object({
   DATABASE_URL: z.string().default('postgresql://postgres:postgres@localhost:5432/resolution_desk'),
   NEXT_PUBLIC_SUPABASE_URL: z.string().optional().default(''),
@@ -14,7 +27,7 @@ const envSchema = z.object({
   GROQ_API_KEY: z.string().optional().default(''),
   LLM_API_KEY: z.string().optional().default(''),
   LLM_MODEL: z.string().default('qwen/qwen3.8-27b'),
-  APP_BASE_URL: z.string().default('http://localhost:3001'),
+  APP_BASE_URL: z.string().default(getEnvBaseUrl),
   DEMO_MODE: z.preprocess((val) => val === 'true' || val === true || val === '1', z.boolean()).default(true),
 });
 
