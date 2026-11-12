@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, CheckCircle2, ShoppingBag, FastForward, RotateCcw } from 'lucide-react';
+import { RefreshCw, CheckCircle2, ShoppingBag, FastForward, RotateCcw, ShieldCheck } from 'lucide-react';
 import { SimulatedLabel } from '@/ui/primitives/SimulatedLabel';
 import { Button } from '@/ui/primitives/Button';
 
@@ -75,13 +75,15 @@ export function SyncBar({
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-6 py-2.5 border-b border-slate-200/80 shadow-2xs select-none">
-      {/* Left: PayPal Live Status & Last Sync */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 text-xs text-slate-600">
-          <span className="font-medium text-slate-500">PayPal Source:</span>
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 select-none pb-1">
+      {/* Left: PayPal Portal Title & Status Badges */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-sans">
+            Resolution Center
+          </h1>
           {paypalMode === 'sandbox' ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>Live Sandbox</span>
             </span>
@@ -93,47 +95,41 @@ export function SyncBar({
           )}
         </div>
 
-        <span className="text-slate-200 hidden sm:inline">|</span>
-
-        <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-          <span>
-            Last synced:{' '}
-            <span suppressHydrationWarning className="font-mono text-slate-700 font-medium">
-              {formattedTime}
+        <div className="flex items-center gap-3 text-xs text-slate-500">
+          <span>Supervised dispute intake & customer refund resolution</span>
+          <span className="text-slate-300">•</span>
+          <div className="flex items-center gap-1">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+            <span>
+              Synced:{' '}
+              <span suppressHydrationWarning className="font-mono text-slate-700 font-medium">
+                {formattedTime}
+              </span>
             </span>
-          </span>
-        </div>
-
-        {statusMsg && (
-          <div className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-blue-900 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200 animate-fade-in">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-            <span>{statusMsg}</span>
           </div>
-        )}
+
+          {statusMsg && (
+            <>
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1 text-[11px] font-mono text-blue-800 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
+                <span>{statusMsg}</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
-      {/* Right: Actions (Sync, Make Purchase, Advance Day, Reset) */}
-      <div className="flex items-center gap-2">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={onSync}
-          disabled={isSyncing}
-          className="flex items-center gap-1.5 text-xs bg-slate-900 text-white hover:bg-slate-800 border-transparent shadow-xs transition-all duration-150 py-1.5 px-3"
-        >
-          <RefreshCw className={`h-3 w-3 ${isSyncing ? 'animate-spin text-blue-300' : 'text-slate-300'}`} />
-          <span>{isSyncing ? 'Syncing...' : 'Sync now'}</span>
-        </Button>
-
+      {/* Right: Actions (Make Purchase, Sync, Advance Day, Reset) */}
+      <div className="flex items-center gap-2 flex-wrap">
         {onOpenPurchase && (
           <Button
             variant="primary"
             size="sm"
             onClick={onOpenPurchase}
-            className="flex items-center gap-1.5 text-xs bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white shadow-xs transition-all duration-150 py-1.5 px-3"
+            className="flex items-center gap-1.5 text-xs bg-[#0070BA] hover:bg-[#005EA6] active:scale-[0.98] text-white shadow-xs transition-all duration-150 py-2 px-3.5 rounded-lg font-semibold"
           >
-            <ShoppingBag className="h-3 w-3" />
+            <ShoppingBag className="h-3.5 w-3.5" />
             <span>+ Make Purchase (Demo)</span>
           </Button>
         )}
@@ -141,25 +137,40 @@ export function SyncBar({
         <Button
           variant="secondary"
           size="sm"
-          onClick={handleAdvance}
-          disabled={isAdvancing || isResetting}
-          className="bg-white hover:bg-slate-50 active:bg-slate-100 border-slate-200 text-slate-700 text-xs py-1.5 px-2.5 flex items-center gap-1.5 shadow-2xs transition-all duration-150"
-          title="Advance system clock by 1 day"
+          onClick={onSync}
+          disabled={isSyncing}
+          className="flex items-center gap-1.5 text-xs bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border-slate-200/90 shadow-2xs transition-all duration-150 py-2 px-3 rounded-lg font-medium"
         >
-          <FastForward className={`h-3 w-3 ${isAdvancing ? 'animate-spin text-slate-500' : 'text-slate-500'}`} />
-          <span>{isAdvancing ? '+1d...' : '+1 Day'}</span>
+          <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? 'animate-spin text-blue-600' : 'text-slate-500'}`} />
+          <span>{isSyncing ? 'Syncing...' : 'Sync'}</span>
         </Button>
 
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={handleReset}
-          disabled={isAdvancing || isResetting}
-          className="bg-white hover:bg-slate-50 active:bg-slate-100 border-slate-200 text-slate-500 hover:text-slate-700 text-xs py-1.5 px-2 flex items-center shadow-2xs transition-all duration-150"
-          title="Reset demo clock state"
-        >
-          <RotateCcw className={`h-3 w-3 ${isResetting ? 'animate-spin text-slate-400' : 'text-slate-400'}`} />
-        </Button>
+        <div className="flex items-center rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleAdvance}
+            disabled={isAdvancing || isResetting}
+            className="bg-white hover:bg-slate-50 active:bg-slate-100 border-none text-slate-700 text-xs py-2 px-2.5 flex items-center gap-1.5 rounded-none font-medium"
+            title="Advance system clock by 1 day"
+          >
+            <FastForward className={`h-3 w-3 ${isAdvancing ? 'animate-spin text-slate-500' : 'text-slate-500'}`} />
+            <span>{isAdvancing ? '+1d...' : '+1 Day'}</span>
+          </Button>
+
+          <div className="h-4 w-px bg-slate-200" />
+
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleReset}
+            disabled={isAdvancing || isResetting}
+            className="bg-white hover:bg-slate-50 active:bg-slate-100 border-none text-slate-400 hover:text-slate-700 text-xs py-2 px-2 flex items-center rounded-none"
+            title="Reset demo clock state"
+          >
+            <RotateCcw className={`h-3 w-3 ${isResetting ? 'animate-spin text-slate-400' : 'text-slate-400'}`} />
+          </Button>
+        </div>
       </div>
     </div>
   );
