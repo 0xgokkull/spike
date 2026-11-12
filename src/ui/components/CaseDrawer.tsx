@@ -6,7 +6,6 @@ import type { CaseDetail } from '@/domain/types';
 import { StatusBadge } from '@/ui/primitives/StatusBadge';
 import { ModeBadge } from '@/ui/primitives/ModeBadge';
 import { DeadlineChip } from '@/ui/primitives/DeadlineChip';
-import { SimulatedLabel } from '@/ui/primitives/SimulatedLabel';
 import { Money } from '@/ui/primitives/Money';
 import { ProvenancePanel } from './ProvenancePanel';
 import { EventTimeline } from './EventTimeline';
@@ -103,7 +102,6 @@ export function CaseDrawer({ caseId, onClose, onCaseUpdated }: CaseDrawerProps) 
                 {detail.source.replace('_', ' ')}
               </span>
             )}
-            {detail?.simulated && <SimulatedLabel />}
             {detail?.status && <StatusBadge status={detail.status} />}
             {detail?.deadlineAt && <DeadlineChip deadlineAt={detail.deadlineAt} />}
           </div>
