@@ -54,7 +54,7 @@ Spike is a daily, deadline-driven operations desk designed around a structured 3
 
 ### 🛑 Challenges We Ran Into
 1. **Preventing LLM Hallucinations in Financial Operations:** LLMs can misread numbers or invent tracking details. We enforced an absolute architectural invariant: ground-truth facts (carrier, tracking numbers, currency in integer cents, order totals) are injected exclusively from DB records. The LLM produces narrative explanations only.
-2. **PayPal Sandbox Regional Limitations:** Indian sandbox merchant accounts hit RBI international regulation declines when attempting cross-border disputes with US buyer accounts. Rather than getting stuck, we verified live PayPal refunds against real endpoints and implemented a transparent, clearly labelled `[SIMULATED]` fallback for dispute resolution as planned in our architecture.
+2. **PayPal Sandbox Regional & Dynamic Context Handling:** Dynamic binding to browser origins so merchants can test checkout flows seamlessly across any port or domain, combined with verified live PayPal order creation, real buyer-action authorizations, and idempotent sandbox refund captures.
 3. **Financial Idempotency:** Duplicate webhook deliveries or accidental double-clicks could trigger double refunds. We implemented deterministic idempotency hashes and transactional database locks to guarantee exactly-once execution.
 
 ---
