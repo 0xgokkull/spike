@@ -8,6 +8,8 @@ const envSchema = z.object({
   PAYPAL_CLIENT_ID: z.string().optional().default(''),
   PAYPAL_CLIENT_SECRET: z.string().optional().default(''),
   PAYPAL_WEBHOOK_ID: z.string().optional().default(''),
+  PAYPAL_PERSONAL_EMAIL: z.string().optional().default(''),
+  PAYPAL_PERSONAL_PASSWORD: z.string().optional().default(''),
   LLM_PROVIDER: z.enum(['groq', 'anthropic', 'mock']).default('mock'),
   GROQ_API_KEY: z.string().optional().default(''),
   LLM_API_KEY: z.string().optional().default(''),
