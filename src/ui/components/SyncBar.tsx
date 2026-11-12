@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RefreshCw, CheckCircle2 } from 'lucide-react';
 import { SimulatedLabel } from '@/ui/primitives/SimulatedLabel';
 import { Button } from '@/ui/primitives/Button';
@@ -18,9 +18,15 @@ export function SyncBar({
   onSync,
   isSyncing = false,
 }: SyncBarProps) {
-  const formattedTime = lastSyncAt
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const formattedTime = mounted && lastSyncAt
     ? new Date(lastSyncAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-    : 'Never';
+    : lastSyncAt ? 'Recently' : 'Never';
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 bg-white px-5 py-3.5 border-b border-slate-200 shadow-sm">
@@ -44,7 +50,7 @@ export function SyncBar({
 
         <div className="flex items-center gap-1.5 text-xs text-slate-500">
           <CheckCircle2 className="h-3.5 w-3.5 text-slate-400" />
-          <span>Last synced: <span className="font-medium text-slate-700">{formattedTime}</span></span>
+          <span>Last synced: <span suppressHydrationWarning className="font-medium text-slate-700">{formattedTime}</span></span>
         </div>
       </div>
 
