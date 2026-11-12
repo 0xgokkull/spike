@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, CheckSquare, Layers, Award } from 'lucide-react';
+import { CheckSquare, Layers, Award } from 'lucide-react';
+import { SpikeLogo } from './SpikeLogo';
 
 export function TopNav() {
   const pathname = usePathname();
@@ -15,9 +16,7 @@ export function TopNav() {
     <header className="h-14 bg-[#0B0F19] text-white border-b border-slate-800/80 px-6 flex items-center justify-between shadow-xs flex-shrink-0 select-none">
       <div className="flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white shadow-xs group-hover:from-blue-400 group-hover:to-blue-500 transition-all duration-150">
-            <Shield className="h-4 w-4" />
-          </div>
+          <SpikeLogo size={32} />
           <div className="flex flex-col">
             <span className="font-semibold text-sm tracking-tight text-slate-100 group-hover:text-white transition-colors leading-tight">
               Spike
