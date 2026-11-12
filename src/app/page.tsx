@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import type { CaseListItem } from '@/domain/types';
 import { SyncBar } from '@/ui/components/SyncBar';
@@ -8,7 +8,7 @@ import { QueueGrid } from '@/ui/components/QueueGrid';
 import { CaseDrawer } from '@/ui/components/CaseDrawer';
 import { PurchaseModal } from '@/ui/components/PurchaseModal';
 import { Money } from '@/ui/primitives/Money';
-import { Layers, AlertTriangle, ShieldAlert, CheckCircle, Scale, ShieldCheck } from 'lucide-react';
+import { Layers, AlertTriangle, CheckCircle, Scale, ShieldCheck } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -18,8 +18,9 @@ export default function QueuePage() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 
-  const { data: cases = [], mutate, isValidating, isLoading } = useSWR<CaseListItem[]>(
-    activeBucket === 'all' ? '/api/cases' : `/api/cases?bucket=${activeBucket}`,
+  // Always fetch full cases list so overall business KPI cards and tab badges stay accurate
+  const { data: allCases = [], mutate, isValidating, isLoading } = useSWR<CaseListItem[]>(
+    '/api/cases',
     fetcher
   );
 
@@ -35,15 +36,43 @@ export default function QueuePage() {
     }
   };
 
-  // Derived financial & queue metrics
-  const totalCases = cases.length;
-  const actionableCount = cases.filter(
+  // Today ISO date for snooze calculations
+  const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
+
+  // Global KPI Metrics across all cases
+  const totalCases = allCases.length;
+  const actionableCount = allCases.filter(
     (c) => c.status === 'awaiting_approval' || c.status === 'action_ready' || c.status === 'new'
   ).length;
-  const waitingCount = cases.filter((c) => c.status === 'waiting_on_paypal').length;
-  const snoozedCount = cases.filter((c) => c.status === 'snoozed').length;
-  const resolvedCount = cases.filter((c) => c.status === 'resolved' || c.status === 'closed').length;
-  const totalAmountAtRiskCents = cases.reduce((acc, c) => acc + c.amountCents, 0);
+  const waitingCount = allCases.filter((c) => c.status === 'waiting_on_paypal').length;
+  const snoozedCount = allCases.filter(
+    (c) => c.status === 'snoozed' && (!c.snoozedUntil || c.snoozedUntil > today)
+  ).length;
+  const resolvedCount = allCases.filter(
+    (c) => c.status === 'resolved' || c.status === 'closed'
+  ).length;
+  const totalAmountAtRiskCents = allCases.reduce((acc, c) => acc + c.amountCents, 0);
+
+  // Instant in-memory filtering for selected tab
+  const displayedCases = useMemo(() => {
+    switch (activeBucket) {
+      case 'actionable':
+        return allCases.filter(
+          (c) => c.status === 'awaiting_approval' || c.status === 'action_ready' || c.status === 'new'
+        );
+      case 'waiting':
+        return allCases.filter((c) => c.status === 'waiting_on_paypal');
+      case 'snoozed':
+        return allCases.filter(
+          (c) => c.status === 'snoozed' && (!c.snoozedUntil || c.snoozedUntil > today)
+        );
+      case 'resolved':
+        return allCases.filter((c) => c.status === 'resolved' || c.status === 'closed');
+      case 'all':
+      default:
+        return allCases;
+    }
+  }, [allCases, activeBucket, today]);
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#F5F7FA] py-6 sm:py-8">
@@ -208,7 +237,7 @@ export default function QueuePage() {
 
             <div className="flex items-center gap-3 text-xs text-slate-500">
               <span className="font-medium">
-                Showing <strong className="text-slate-800 font-bold">{cases.length}</strong> items
+                Showing <strong className="text-slate-800 font-bold">{displayedCases.length}</strong> items
               </span>
               <span className="text-slate-300">•</span>
               <span className="text-slate-400 font-mono text-[11px]">
@@ -217,10 +246,10 @@ export default function QueuePage() {
             </div>
           </div>
 
-          {/* Table Container */}
-          <div className="w-full min-h-[460px]">
+          {/* Table Container with Dedicated Dimension */}
+          <div className="w-full">
             <QueueGrid
-              items={cases}
+              items={displayedCases}
               onSelect={(id) => setSelectedCaseId(id)}
               selectedId={selectedCaseId}
               isLoading={isLoading}
