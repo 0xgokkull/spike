@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-12 22:02 IST · README-POLISH · Updated README.md with GitHub repository links, status badges, full architecture diagram, and PayPal Resolution Center demo walkthrough · README.md · 51 tests passing
 - 2026-11-12 21:58 IST · GRID-WIDTH-ALIGN · Fixed table column width budget to 1065px, enabled suppressHorizontalScroll, and locked consistent 460px height to eliminate shifting and right-column clipping · src/ui/components/QueueGrid.tsx · 51 tests passing
 - 2026-11-12 21:51 IST · TAB-GRID-FIX · Fixed AG Grid viewport collapse by enforcing explicit 480px height on grid container, and fixed tab filtering so global KPI metrics and tab counts remain accurate while switching tabs · src/ui/components/QueueGrid.tsx, src/app/page.tsx · 51 tests passing
 - 2026-11-12 21:35 IST · PAYPAL-LAYOUT · Redesigned layout inspired by PayPal Resolution Center: added centered max-w-7xl container with side padding across all pages, structured 4-metric overview cards, and unified white table card · src/app/page.tsx, src/app/close/page.tsx, src/ui/components/SyncBar.tsx, src/ui/components/TopNav.tsx, src/ui/components/QueueGrid.tsx · 51 tests passing
