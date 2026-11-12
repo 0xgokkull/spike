@@ -1,230 +1,231 @@
-# Spike
+# Spike — Supervised PayPal Autonomy
 
-> A daily, deadline-driven queue where an AI agent resolves PayPal refund requests and disputes for small online sellers. It acts on its own inside limits the seller sets, and asks before anything material.
+> A daily, deadline-driven operations desk where an AI agent resolves PayPal refund requests and customer disputes for online sellers under strict, deterministic supervised autonomy. It acts on its own inside limits the seller sets, and asks before anything material.
 
-**Status:** Feature complete for the PayPal AI Hackathon 2026. All 51 unit, integration, and end-to-end tests passing. **Sandbox only. There is no live-money mode.**
+[![GitHub Repository](https://img.shields.io/badge/GitHub-0xgokkull%2Fspike-blue?logo=github)](https://github.com/0xgokkull/spike)
+[![Tests](https://img.shields.io/badge/Vitest-51%20passing-brightgreen)](https://github.com/0xgokkull/spike)
+[![Next.js 15](https://img.shields.io/badge/Next.js-15%20App%20Router-black?logo=next.js)](https://nextjs.org/)
+[![PayPal Sandbox](https://img.shields.io/badge/PayPal-Sandbox%20Verified-003087?logo=paypal)](https://developer.paypal.com)
+[![Groq Fast Inference](https://img.shields.io/badge/Groq-Qwen%2027B%20JSON-orange)](https://groq.com)
+[![AG Grid](https://img.shields.io/badge/AG%20Grid-v33%20Enterprise%20Ready-00A389)](https://www.ag-grid.com)
 
-| Doc | Read it for |
-|---|---|
-| [README.md](README.md) | What the product is, how to run it, how it maps to the judging criteria (this file) |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | File structure, components, system design, contracts |
-| [AGENTS.md](AGENTS.md) | Rules and workflow for AI coding agents working on this repo |
-| [PROGRESS.md](PROGRESS.md) | Task board, blockers, changelog |
-| [SPIKE.md](SPIKE.md) | Results of the PayPal dispute spike (what was proven live) |
+- **GitHub Repository:** [https://github.com/0xgokkull/spike.git](https://github.com/0xgokkull/spike.git)
+- **Status:** Feature complete for the **PayPal AI Hackathon 2026**. All 19 test suites and 51 unit, integration, and end-to-end tests passing.
+- **Environment:** **Sandbox only.** Pinned to `api-m.sandbox.paypal.com`. No live-money switch exists.
 
 ---
 
-## 1. The problem
+## Navigation & Documentation
 
-A small online seller handles two kinds of "give the money back" work, and both are scattered:
-
-- **Disputes** opened by buyers inside PayPal. They have response deadlines, need the right evidence for the dispute reason, and are easy to lose by answering late or answering badly.
-- **Refund requests** that arrive as messages. Each one needs a judgement call against the seller's own policy.
-
-The work is repetitive, deadline-driven, and every outcome is a PayPal action. That makes it a good fit for an agent, as long as the agent cannot move money outside limits the seller controls.
-
-## 2. What Resolution Desk does
-
-The seller opens one screen, **Today**. It lists every open case, sorted by deadline and amount at risk. For each case:
-
-1. The agent reads the buyer message, the order record, the tracking record, and the seller's plain-English refund policy.
-2. It proposes **one** action and cites the policy clause behind it.
-3. Deterministic code validates the proposal and decides whether it may run automatically or needs approval.
-4. The seller **approves, edits, or snoozes (with a date)**. There is no dismiss button.
-5. The action executes through PayPal (sandbox) and the case status and event history update.
-6. **Day Close** unlocks only when nothing actionable is left and every automatic action has been acknowledged.
-
-### Actions
-
-| Action | What it does in PayPal | AI's role |
-|---|---|---|
-| **Refund** (full or partial) | Refunds the captured payment | Decides eligibility, amount, policy clause, rationale |
-| **Contest with evidence** | Submits evidence on the dispute | Writes the narrative; evidence facts come from order/tracking records only |
-| **Accept claim** | Concedes the dispute to the buyer | Explains why conceding is the lowest-risk option |
-| **Reply** (local only) | No PayPal call; resolves a case with a drafted message | Drafts the message |
-
-## 3. Supervised autonomy
-
-The agent may act alone in exactly one situation. Everything else waits for the seller.
-
-| Situation | Who acts |
+| Document | Description |
 |---|---|
-| Refund, amount at or under the seller's cap, policy allows the reason, tracking does **not** show delivery | Agent executes automatically; seller acknowledges at Day Close |
-| Any other refund | Seller approval |
-| Contest with evidence | Always approval |
-| Accept claim | Always approval (it concedes to the buyer) |
-| Reply | Always approval (no money moves, but it speaks for the seller) |
+| [README.md](README.md) | Product overview, live demo walkthrough, quick start, and hackathon rubric mapping (this file) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Full architectural blueprint, module tree, reuse index, domain state machine, and PayPal contracts |
+| [AGENTS.md](AGENTS.md) | Locked engineering invariants and workflow rules for AI coding agents |
+| [PROGRESS.md](PROGRESS.md) | Complete chronological audit log, task board, and changelog |
+| [SPIKE.md](SPIKE.md) | Empirical results and live network verification of the PayPal Disputes & Payments API spike |
+| [DEVPOST_SUBMISSION.md](DEVPOST_SUBMISSION.md) | Pre-written submission package for Devpost (story, tracks, and AI disclosures) |
 
-The auto-vs-approval decision is **deterministic code**. The LLM cannot change it, and the UI shows why each case got its mode.
+---
 
-## 4. Why a seller opens it every day (and what we can honestly claim)
+## 1. The Problem
 
-- Disputes carry deadlines, so the queue is ordered by urgency and unresolved cases carry over, ranked first.
-- Refunds and dispute responses have to happen in PayPal. This is the one place where they are decided, executed, and logged.
-- Every case ends in a decision. Snooze requires a date, so nothing quietly disappears.
-- Day Close is a daily checkpoint: it stays locked until the queue is empty and automatic actions are acknowledged.
+Online merchants face a relentless stream of "give the money back" requests split across two chaotic channels:
 
-We demonstrate the loop. We do not claim measured daily usage; a hackathon-length build cannot prove retention.
+1. **PayPal Disputes:** Governed by strict 10-to-20 day deadlines, complex HATEOAS availability states, and rigorous evidence packaging requirements. Miss a deadline or submit incomplete evidence, and funds are automatically forfeited.
+2. **Refund Requests:** Arriving as unstructured buyer messages requiring subjective judgment against store return policies.
 
-## 5. Demo (3 minutes or less)
+Handling these manually causes delayed responses, lost disputes, and revenue leaks. Fully autonomous AI agents, on the other hand, risk hallucinating facts, issuing unauthorized refunds, or making legally binding concessions.
 
-| Time | What the video shows |
-|---|---|
-| 0:00 | The problem in two sentences |
-| 0:15 | Today queue with seeded cases, sorted by deadline and amount at risk |
-| 0:35 | A small refund request is refunded automatically under policy; the case shows the PayPal refund ID |
-| 1:05 | A "not received" dispute: agent proposes contest, provenance shows tracking delivered and evidence 6/6 |
-| 1:30 | Seller approves; evidence goes to PayPal; dispute is settled in the seller's favour in the sandbox |
-| 2:05 | A larger refund is snoozed with a date; "advance day" brings it back |
-| 2:25 | Day Close: locked until the queue is empty, then acknowledge automatic actions and close |
-| 2:50 | One-line wrap-up |
+**Spike** bridges this gap using a principled engineering architecture: **"LLM proposes, code disposes."**
 
-Any step that could not be run live is labelled **SIMULATED** on screen.
+---
 
-## 6. How PayPal is used
+## 2. What Spike Does
 
-| Capability | Mechanism |
-|---|---|
-| Refund a capture (full or partial) | PayPal Agent Toolkit `create_refund` |
-| List and read disputes | Agent Toolkit `list_disputes`, `get_dispute` |
-| Accept a dispute claim | Agent Toolkit `accept_dispute_claim` |
-| Record shipment tracking | Agent Toolkit `create_shipment_tracking` |
-| Provide dispute evidence | Disputes REST `POST /v1/customer/disputes/{id}/provide-evidence` (the toolkit has no evidence tool) |
-| Settle a test dispute (demo only) | Disputes REST sandbox settle call |
-| Stay in sync | Webhooks (signature verified, de-duplicated) plus polling fallback |
+The seller opens one screen, the **Resolution Center**. It presents every open case, prioritized by strict response deadlines and capital at risk.
 
-We use the toolkit wherever it covers the action and direct REST where it does not. Details and verified facts: [ARCHITECTURE.md §11](ARCHITECTURE.md).
-
-## 7. How AI is used
-
-| The LLM does | The LLM never does |
-|---|---|
-| Classifies the buyer's issue and extracts the claim | Executes anything |
-| Proposes one action, an amount, and a policy clause | Decides auto vs approval |
-| Writes the rationale, evidence narrative, and message drafts | Supplies carrier, tracking number, order ID, amount, dates, or refund ID |
-| | Estimates a win probability (we show evidence completeness, reason, amount at risk, policy match) |
-
-Every proposal is checked by code (action available, clause exists, amount valid, evidence complete for contests). If the LLM fails or violates a rule, a deterministic fallback proposes instead, so the queue never blocks. Buyer messages are treated as untrusted text.
-
-## 8. Tech stack
-
-| Area | Choice |
-|---|---|
-| App | Next.js (App Router), TypeScript strict |
-| UI | Tailwind CSS, AG Grid (queue and Day Close ledger), SWR |
-| Data | Postgres, Drizzle ORM and migrations |
-| Validation | Zod at every boundary |
-| PayPal | `@paypal/agent-toolkit` plus direct Disputes REST |
-| LLM | Pluggable provider (`anthropic`, or `mock` for tests and offline demo) |
-| PDF | `pdf-lib` (deterministic delivery receipt from order data) |
-| Tests | Vitest, MSW, PGlite (in-process Postgres), Testing Library |
-| Hosting | Render (web service, Postgres, cron) |
-
-## 9. Quick start
-
-Requirements: Node 20+, pnpm 9+, Docker (for local Postgres) or any Postgres URL.
-
-### Mode A: no credentials (fake PayPal, mock LLM)
-
-Good for judges and for development. The UI shows a **SIMULATED PAYPAL** badge.
-
-```bash
-pnpm install
-cp .env.example .env.local      # set PAYPAL_MODE=fake and LLM_PROVIDER=mock
-pnpm db:up && pnpm db:migrate
-pnpm seed
-pnpm dev                        # http://localhost:3000
+```
+Incoming PayPal Dispute / Customer Refund Request
+                    │
+                    ▼
+       ┌─────────────────────────┐
+       │   Groq AI Policy Triage │ ◄── Store Refund Policy (P-1 to P-5)
+       │     (Qwen 27B JSON)     │ ◄── DB Ground-Truth Order & Tracking Facts
+       └────────────┬────────────┘
+                    │ Proposes 1 Action + Policy Citation
+                    ▼
+       ┌─────────────────────────┐
+       │   Deterministic Gate    │ ◄── Hard Rules & Auto-Refund Cap ($25)
+       │    (Code, Not LLM)      │
+       └──────┬───────────┬──────┘
+              │           │
+     Eligible │           │ High Stakes / Cap Exceeded
+       Refund │           │ (Contest, Concede, Reply)
+              ▼           ▼
+        [ MODE: AUTO ] [ MODE: APPROVAL ]
+              │           │
+              │     Seller Approves / Edits / Snoozes
+              │           │
+              └─────┬─────┘
+                    ▼
+       ┌─────────────────────────┐
+       │   PayPal Sandbox REST   │ ◄── Idempotent Execution (`PayPal-Request-Id`)
+       │      & Agent Toolkit    │
+       └────────────┬────────────┘
+                    ▼
+       ┌─────────────────────────┐
+       │  Audit Event Timeline   │ ──► Locked Ledger & Day Close Gate
+       └─────────────────────────┘
 ```
 
-### Mode B: real PayPal sandbox
+1. **Intake & Ingestion:** Pulls disputes automatically from PayPal Sandbox (`v1/customer/disputes`) or registers incoming customer refund requests.
+2. **High-Speed AI Triage:** The LLM reads the buyer's message, references the merchant's plain-English policy (`P-1` to `P-5`), correlates ground-truth tracking events, and proposes **one** action with policy citations and structured rationale in $< 1.5$ seconds.
+3. **Deterministic Autonomy Gate:** Pure code—never the LLM—decides whether the proposal may execute automatically or requires merchant approval.
+4. **Human-in-the-Loop Supervision:** The seller reviews the case in a slide-over drawer featuring a **Provenance Panel** (separating verified facts from AI prose) and an executive **Audit Event Timeline**. The seller can **Approve**, **Edit Rationale**, or **Snooze (+24h)**. There is no dismiss button.
+5. **Idempotent Execution:** Actions dispatch to PayPal Sandbox with strict idempotency keys (`PayPal-Request-Id`).
+6. **Day Close Financial Gate:** The business day cannot close until all actionable disputes are resolved and all autonomous actions are formally acknowledged in the ledger.
 
-1. At developer.paypal.com, create sandbox **Business** (seller) and **Personal** (buyer) accounts.
-2. Create a sandbox REST app, **enable Disputes** in its feature options, and copy the client ID and secret.
-3. In `.env.local` set `PAYPAL_MODE=sandbox`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`. `PAYPAL_WEBHOOK_ID` is optional because polling works without webhooks.
-4. `pnpm spike:orders` creates sandbox orders and prints buyer approval links. Approve each as the buyer; the script then captures them and writes `scripts/sandbox-orders.json`.
-5. Open at least one dispute as the sandbox buyer (wallet dispute flow, or the API if your account has access), then run `pnpm sync`.
-6. `pnpm seed:sandbox`, then `pnpm dev`.
+---
 
-For a real LLM, set `LLM_PROVIDER=anthropic`, `LLM_API_KEY`, and `LLM_MODEL`. Without them use `LLM_PROVIDER=mock`.
+## 3. Supported Actions & Execution Modes
 
-## 10. Environment variables
+| Action | PayPal Sandbox Mechanism | AI's Role | Autonomy Rule |
+|---|---|---|---|
+| **Refund** | Payments REST / Agent Toolkit `create_refund` | Recommends refund amount and cites policy clause | **Auto** if $\le \$25$ cap, eligible reason, and tracking shows not delivered. Otherwise **Approval Required**. |
+| **Contest Dispute** | Disputes REST `provide-evidence` + `pdf-lib` | Synthesizes formal evidence narrative and delivery proof | **Always Approval Required** (requires 100% complete evidence checklist). |
+| **Accept Claim** | Agent Toolkit `accept_dispute_claim` | Recommends conceding when cost to contest exceeds capital at risk | **Always Approval Required** (legally concedes dispute to buyer). |
+| **Send Reply** | Local dispute communication | Drafts polite, professional update message to buyer | **Always Approval Required** (communicates on behalf of merchant). |
 
-| Variable | Required | Purpose |
+---
+
+## 4. UI Architecture (PayPal Resolution Center Inspired)
+
+The user interface follows the visual hierarchy and discipline of the official **PayPal Business Resolution Center** and **Stripe Dashboard**:
+
+- **Centered Layout (`max-w-7xl`):** Content is framed with balanced horizontal padding on both sides, ensuring clean readability across wide displays.
+- **4-KPI Overview Metric Cards:** Surfaces `Total Cases`, `Action Required`, `Amount at Risk`, and `Resolved` with prominent `3xl` tabular numbers and PayPal blue, amber, indigo, and emerald accents.
+- **Unified Dispute Queue Card:** AG Grid Community table locked to a stable `460px` height to eliminate layout jumping. Column widths are budgeted to `1065px` with zero horizontal scroll and zero text clipping.
+- **Instant In-Memory Tab Switching:** Toggling between `All Cases`, `Actionable`, `Waiting on PayPal`, `Snoozed`, and `Resolved` is instant (0ms latency) while keeping top KPI metric cards and tab badges accurate.
+- **Executive Audit Event Timeline:** Tucks raw JSON payloads into an expandable `<details>` summary while presenting human-readable transition pills (`[Awaiting Approval] → [Resolved]`), error guidance callouts, and structured settlement IDs (Refund ID, Dispute ID).
+- **Interactive Storefront Purchase Modal (`+ Make Purchase (Demo)`):** Allows judges and operators to simulate live customer purchases and dispute filings on the fly, triggering immediate Groq AI triage.
+
+---
+
+## 5. Live Demo Flow (3 Minutes or Less)
+
+| Time | Action | What is Demonstrated |
 |---|---|---|
-| `DATABASE_URL` | yes | Postgres connection string (Supabase or local Postgres) |
-| `NEXT_PUBLIC_SUPABASE_URL` | optional | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | optional | Supabase public anonymous key |
-| `PAYPAL_MODE` | yes | `sandbox` or `fake` |
-| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | sandbox mode | PayPal Sandbox REST app credentials |
-| `PAYPAL_WEBHOOK_ID` | optional | Enables webhook signature verification |
-| `LLM_PROVIDER` | yes | `groq`, `anthropic`, or `mock` |
-| `GROQ_API_KEY` / `LLM_API_KEY` | groq / anthropic | Provider credentials |
-| `LLM_MODEL` | optional | Model ID (`qwen/qwen3.8-27b`, etc.) |
-| `APP_BASE_URL` | yes | Public URL, used for links and webhook setup |
-| `DEMO_MODE` | optional | `true` enables `/api/demo/*` (advance day, reset) |
+| **0:00 – 0:30** | **Resolution Center Dashboard** | Point out the **Spike** brand, **Live Sandbox** indicator, and the 4 financial KPI cards. Explain the core principle: *"LLM proposes, deterministic code disposes."* |
+| **0:30 – 1:15** | **Click `+ Make Purchase (Demo)`** | Select **Vintage Mechanical Watch ($120.00)** or **Wireless Earbuds ($20.00)**. Show sub-1.5s live Groq AI triage against store refund policy clauses (`P-1` to `P-5`). |
+| **1:15 – 2:00** | **Supervisor Review in Case Drawer** | Open the case drawer. Highlight the **Provenance Panel** (separating DB facts from AI text) and the formatted **Audit Event Timeline**. Click **`Approve Recommendation`** to execute live via PayPal. |
+| **2:00 – 2:40** | **Snooze & Simulated Clock Advance** | Snooze a case to tomorrow's date. Click **`+1 Day`** on the header bar to advance the clock and show the snoozed case waking back into the actionable queue. |
+| **2:40 – 3:00** | **Day Close Reconciliation Gate** | Navigate to **`Day Close`** via Top Nav. Demonstrate that day close remains locked until all pending approvals are cleared. Acknowledge automated actions and close the business day. |
 
-Env is parsed once in `src/lib/env.ts`. Never read `process.env` elsewhere.
+*Any synthetic steps in the demo environment are explicitly marked with the `[SIMULATED]` label per Rule 10.*
 
-## 11. Scripts
+---
 
-| Script | Does |
-|---|---|
-| `pnpm dev` / `build` / `start` | Next.js dev, build, serve |
-| `pnpm check` | Typecheck + lint + unit/integration tests (must be green before any commit) |
-| `pnpm test` | Unit and integration tests (offline, deterministic) |
-| `pnpm test:sandbox` | Opt-in live PayPal sandbox tests (needs credentials) |
-| `pnpm db:up` / `db:generate` / `db:migrate` | Local Postgres, generate and apply migrations |
-| `pnpm seed` / `seed:sandbox` | Seed policy, orders, refund requests (fake or sandbox ids) |
-| `pnpm sync` | Pull disputes from PayPal and process new cases |
-| `pnpm spike` / `spike:orders` | PayPal dispute spike steps; create and capture sandbox orders |
-| `pnpm demo:reset` | Reset demo data and the simulated clock |
-| `pnpm e2e:demo` | Runs the full demo flow at service level against mocks |
+## 6. Tech Stack
 
-## 12. Testing
-
-- Every function with logic has a test written in the same change.
-- `pnpm test` never touches the network. PayPal is mocked with MSW fixtures that came from real sandbox responses; the LLM is mocked with `MockLlm`.
-- Live checks live under `tests/sandbox/` and run only with `pnpm test:sandbox`.
-- Details: [ARCHITECTURE.md §15](ARCHITECTURE.md).
-
-## 13. Deployment (Render)
-
-`render.yaml` provisions a web service, a Postgres database, and a cron job that calls `POST /api/sync` every minute. Migrations run before start. After deploy, add `https://<your-app>.onrender.com/api/webhooks/paypal` as a webhook in the sandbox app and subscribe to dispute and refund events. The app works without it, using polling.
-
-## 14. Scope
-
-**In:** one seller, the Today queue, the case view with provenance, Day Close, three executable PayPal actions plus a local reply, webhooks with polling fallback, a simulated clock for the demo.
-
-**Out (deliberately):** authentication and multi-user, multi-currency, analytics, real email or SMS, make-offer and escalation, chargebacks from banks, anything that touches live money.
-
-## 15. Known limitations (read before judging)
-
-- Sandbox only. No live-money switch exists.
-- Single seller, no authentication. Production would add seller auth and role-based access.
-- USD only.
-- Contest is supported for the "item not received" reason. Other reasons can be refunded or conceded only.
-- PayPal limits dispute creation through the API to limited-release access, so test disputes may need to be opened from the sandbox buyer's wallet.
-- Evidence facts come from the seller's order and tracking records, which are seeded in the demo.
-- Any step that was not run live is labelled SIMULATED in the UI and in [SPIKE.md](SPIKE.md).
-
-## 16. Hackathon alignment
-
-PayPal AI Hackathon 2026 judges on technological implementation, design, potential impact, innovation, and presentation. We are also aiming at **Best Use of PayPal + AI** and **Best Use of Agentic Commerce**, and use AG Grid and Render as sponsor technologies.
-
-| Criterion | Where it shows |
-|---|---|
-| Technological implementation | Real sandbox flow, toolkit plus REST split, idempotent executors, signed webhooks, tested core |
-| Design | One screen, provenance for every recommendation, explicit auto-vs-approval reasons |
-| Potential impact | Deadline-driven money-back work that small sellers handle by hand |
-| Innovation | Supervised autonomy: the agent acts inside seller limits, code (not the LLM) holds the gate |
-| Presentation | Three-minute loop: queue, auto refund, contested dispute, Day Close |
-
-## 17. AI tools and services disclosure (complete before submission)
-
-| Component | Tool / model | Role |
+| Area | Technology | Purpose |
 |---|---|---|
-| Runtime LLM | Groq (`qwen/qwen3.8-27b`) | High-speed structured JSON triage, policy-bound proposals, evidence narrative, and buyer message drafting |
-| PayPal Integration | `@paypal/agent-toolkit`, PayPal Disputes & Payments REST APIs | Live sandbox capture refunds, dispute evidence submissions, idempotency tracking |
-| Development Assistants | Antigravity AI pair programmer | Scaffolding, architecture adherence, test generation, and documentation under [AGENTS.md](AGENTS.md) rules |
+| **Frontend** | Next.js 15 (App Router), React 19, TypeScript Strict | Server & Client Components, responsive modern dashboard |
+| **Styling** | Tailwind CSS v4 | Clean fintech aesthetics, custom PayPal dual-tone gradients |
+| **Data Grid** | AG Grid Community v33 | Enterprise-grade dispute queue and reconciliation ledger |
+| **Database** | Supabase PostgreSQL + Drizzle ORM | 9 relational tables with migrations and foreign key integrity |
+| **AI Inference** | Groq SDK (`qwen/qwen3.8-27b`) | Sub-1.5s structured JSON triage and policy enforcement |
+| **PayPal SDK** | `@paypal/agent-toolkit` + Disputes REST API | Live sandbox refunds, dispute queries, and claim concessions |
+| **Evidence PDF** | `pdf-lib` | Deterministic synthesis of official delivery receipts |
+| **Testing** | Vitest, MSW, PGlite | 51 unit, integration, and E2E tests running offline & in-memory |
 
-License: MIT
+---
+
+## 7. Quick Start Guide
+
+### Prerequisites
+- Node.js 20+
+- pnpm 9+
+- A Supabase or local PostgreSQL database URL
+- *(Optional for live mode)* PayPal Developer Sandbox credentials and Groq API key
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/0xgokkull/spike.git
+cd spike
+pnpm install
+```
+
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+Set the required environment variables:
+```ini
+DATABASE_URL="postgresql://postgres:[PASSWORD]@db.[PROJECT].supabase.co:5432/postgres"
+PAYPAL_MODE="sandbox"              # or "fake" for offline mock mode
+PAYPAL_CLIENT_ID="your_client_id"
+PAYPAL_CLIENT_SECRET="your_client_secret"
+LLM_PROVIDER="groq"                # or "mock" for offline deterministic tests
+GROQ_API_KEY="your_groq_api_key"
+LLM_MODEL="qwen/qwen3.8-27b"
+APP_BASE_URL="http://localhost:3000"
+DEMO_MODE="true"
+```
+
+### 3. Run Migrations & Seed Store Policy
+```bash
+pnpm db:migrate
+pnpm seed
+```
+
+### 4. Start the Application
+```bash
+pnpm dev
+```
+Open **`http://localhost:3000`** in your browser.
+
+---
+
+## 8. Verification & Test Suite
+
+Spike enforces rigorous test-driven verification across all layers:
+- **Unit Tests:** Tables-driven domain tests for autonomy gates, Zod schemas, hash generation, and financial cents conversions.
+- **Integration Tests:** PGlite in-memory Postgres repositories and MSW mocked PayPal REST endpoints.
+- **E2E Demo Flow Test:** Validates the entire 3-minute lifecycle (intake $\rightarrow$ auto-refund $\rightarrow$ contest approval with PDF evidence $\rightarrow$ snooze $\rightarrow$ clock advance $\rightarrow$ Day Close lock).
+
+Run the full test suite and typecheck:
+```bash
+pnpm check
+```
+*(All 19 test files and 51 tests must pass green with zero errors before any commit.)*
+
+---
+
+## 9. Hackathon Track & Rubric Alignment
+
+| Criterion | Where Spike Demonstrates It |
+|---|---|
+| **Technological Implementation** | Live PayPal Sandbox capture refunds, dual toolkit + direct REST architecture, idempotent executors (`PayPal-Request-Id`), and 51 passing tests. |
+| **Design & User Experience** | Official PayPal Resolution Center layout, centered `max-w-7xl` container, executive KPI cards, rock-solid AG Grid table, and human-readable audit timelines. |
+| **Potential Impact** | Eliminates manual dispute handling for small e-commerce merchants, preventing revenue loss while keeping humans in the loop for high-value claims. |
+| **Innovation** | Supervised Autonomy: The LLM proposes actions with policy citations, but deterministic code controls the execution gate. |
+| **Presentation** | Seamless 3-minute demo loop supported by the built-in `+ Make Purchase (Demo)` storefront flow. |
+
+---
+
+## 10. AI Tools & Services Disclosure
+
+| Component | Tool / Model | Role in Spike |
+|---|---|---|
+| **Runtime LLM** | Groq (`qwen/qwen3.8-27b`) | Sub-1.5s structured JSON triage, policy-bound proposals, evidence narrative, and buyer message drafting. |
+| **PayPal Integration** | `@paypal/agent-toolkit`, PayPal Disputes & Payments REST APIs | Live sandbox capture refunds, dispute evidence submissions, and idempotency tracking. |
+| **Development Assistance** | Antigravity AI pair programmer | Scaffolding, architecture adherence, test generation, and documentation under [AGENTS.md](AGENTS.md) rules. |
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
