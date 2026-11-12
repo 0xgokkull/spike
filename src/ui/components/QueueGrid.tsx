@@ -18,6 +18,7 @@ export interface QueueGridProps {
   items: CaseListItem[];
   onSelect: (id: string) => void;
   selectedId?: string | null;
+  isLoading?: boolean;
 }
 
 const REASON_LABELS: Record<Reason, string> = {
@@ -28,7 +29,7 @@ const REASON_LABELS: Record<Reason, string> = {
   OTHER: 'Other / Inquiries',
 };
 
-export function QueueGrid({ items, onSelect, selectedId }: QueueGridProps) {
+export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: QueueGridProps) {
   const columnDefs = useMemo<ColDef<CaseListItem>[]>(() => {
     return [
       {
@@ -156,7 +157,12 @@ export function QueueGrid({ items, onSelect, selectedId }: QueueGridProps) {
 
   return (
     <div className="w-full h-full flex flex-col bg-white">
-      {items.length === 0 ? (
+      {isLoading ? (
+        <div className="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-400">
+          <div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mb-3" />
+          <span className="text-xs font-medium text-slate-500">Loading dispute queue...</span>
+        </div>
+      ) : items.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-500">
           <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
             <span className="text-xl">✓</span>
@@ -167,7 +173,7 @@ export function QueueGrid({ items, onSelect, selectedId }: QueueGridProps) {
           </p>
         </div>
       ) : (
-        <div className="ag-theme-alpine w-full h-full flex-1">
+        <div className="ag-theme-alpine w-full h-[560px] min-h-[400px]">
           <AgGridReact<CaseListItem>
             rowData={items}
             columnDefs={columnDefs}
