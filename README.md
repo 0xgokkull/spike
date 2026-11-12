@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/spike-logo.svg" alt="Spike logo" width="120" />
+</p>
+
 # Spike — Supervised PayPal Autonomy
 
 > A daily, deadline-driven operations desk where an AI agent resolves PayPal refund requests and customer disputes for online sellers under strict, deterministic supervised autonomy. It acts on its own inside limits the seller sets, and asks before anything material.
