@@ -95,6 +95,7 @@ _None yet._ Format: `date · task · what you tried · what you need · fallback
 
 `YYYY-MM-DD HH:MM IST · TASK-ID · what · files · tests`
 
+- 2026-11-12 21:25 IST · AUDIT-POLISH · Transformed audit event timeline into executive visual cards, eliminated raw JSON dumps, redesigned Spike PayPal monogram logo, added Back to Queue buttons on all pages, expanded AG Grid column widths, and cleaned database · src/ui/components/EventTimeline.tsx, src/ui/components/SpikeLogo.tsx, src/ui/components/TopNav.tsx, src/ui/components/CaseDrawer.tsx, src/app/close/page.tsx, src/ui/components/QueueGrid.tsx, src/app/page.tsx · 51 tests passing
 - 2026-11-12 20:55 IST · STOREFRONT-DEMO · Added interactive PurchaseModal and /api/demo/purchase endpoint, unified control bar, removed Simulator Environment banner, and streamlined queue overlays · src/ui/components/PurchaseModal.tsx, src/ui/components/SyncBar.tsx, src/app/api/demo/purchase/route.ts, src/app/page.tsx · 51 tests passing
 - 2026-11-12 20:25 IST · LIVE-DATA-ONLY · Purged simulated mock cases/orders from Supabase DB, updated seed script to sync live from PayPal Sandbox without generating mocks, and implemented bucket filtering · scripts/seed.ts, src/services/getCases.ts, PROGRESS.md · 51 tests passing
 - 2026-11-12 17:30 IST · REBRAND-LOGO · Renamed app branding to Spike, created custom PayPal-themed vector logo and site favicon · src/ui/components/SpikeLogo.tsx, src/ui/components/TopNav.tsx, src/app/icon.svg · 51 tests passing
