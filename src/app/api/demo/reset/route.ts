@@ -3,6 +3,8 @@ import { clock } from '@/lib/clock';
 import { env } from '@/lib/env';
 import { AppError } from '@/lib/errors';
 
+export const dynamic = 'force-dynamic';
+
 export const POST = handler({
   run: async () => {
     if (!env.DEMO_MODE) {
