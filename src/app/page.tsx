@@ -10,7 +10,14 @@ import { PurchaseModal } from '@/ui/components/PurchaseModal';
 import { Money } from '@/ui/primitives/Money';
 import { Layers, AlertTriangle, CheckCircle, Scale, ShieldCheck, Loader2 } from 'lucide-react';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    return [];
+  }
+  const data = await res.json().catch(() => []);
+  return Array.isArray(data) ? data : [];
+};
 
 export default function QueuePage() {
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
@@ -87,40 +94,43 @@ export default function QueuePage() {
   // Today ISO date for snooze calculations
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
+  // Guarantee array safety even if network returns error or auth redirect
+  const safeCases = useMemo(() => (Array.isArray(allCases) ? allCases : []), [allCases]);
+
   // Global KPI Metrics across all cases
-  const totalCases = allCases.length;
-  const actionableCount = allCases.filter(
+  const totalCases = safeCases.length;
+  const actionableCount = safeCases.filter(
     (c) => c.status === 'awaiting_approval' || c.status === 'action_ready' || c.status === 'new'
   ).length;
-  const waitingCount = allCases.filter((c) => c.status === 'waiting_on_paypal').length;
-  const snoozedCount = allCases.filter(
+  const waitingCount = safeCases.filter((c) => c.status === 'waiting_on_paypal').length;
+  const snoozedCount = safeCases.filter(
     (c) => c.status === 'snoozed' && (!c.snoozedUntil || c.snoozedUntil > today)
   ).length;
-  const resolvedCount = allCases.filter(
+  const resolvedCount = safeCases.filter(
     (c) => c.status === 'resolved' || c.status === 'closed'
   ).length;
-  const totalAmountAtRiskCents = allCases.reduce((acc, c) => acc + c.amountCents, 0);
+  const totalAmountAtRiskCents = safeCases.reduce((acc, c) => acc + (c.amountCents || 0), 0);
 
   // Instant in-memory filtering for selected tab
   const displayedCases = useMemo(() => {
     switch (activeBucket) {
       case 'actionable':
-        return allCases.filter(
+        return safeCases.filter(
           (c) => c.status === 'awaiting_approval' || c.status === 'action_ready' || c.status === 'new'
         );
       case 'waiting':
-        return allCases.filter((c) => c.status === 'waiting_on_paypal');
+        return safeCases.filter((c) => c.status === 'waiting_on_paypal');
       case 'snoozed':
-        return allCases.filter(
+        return safeCases.filter(
           (c) => c.status === 'snoozed' && (!c.snoozedUntil || c.snoozedUntil > today)
         );
       case 'resolved':
-        return allCases.filter((c) => c.status === 'resolved' || c.status === 'closed');
+        return safeCases.filter((c) => c.status === 'resolved' || c.status === 'closed');
       case 'all':
       default:
-        return allCases;
+        return safeCases;
     }
-  }, [allCases, activeBucket, today]);
+  }, [safeCases, activeBucket, today]);
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#F5F7FA] py-6 sm:py-8">
