@@ -46,16 +46,16 @@ export function QueueGrid({ items, onSelect, selectedId }: QueueGridProps) {
       {
         headerName: 'Case',
         field: 'id',
-        width: 200,
+        width: 210,
         cellRenderer: (params: { data?: CaseListItem }) => {
           if (!params.data) return null;
           const shortId = params.data.id.slice(0, 8);
           return (
-            <div className="flex items-center gap-1.5 h-full">
-              <span className="font-mono text-xs font-semibold text-slate-800">
+            <div className="flex items-center gap-2 h-full">
+              <span className="font-mono text-xs font-semibold text-slate-900">
                 #{shortId}
               </span>
-              <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+              <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium border border-slate-200/60 uppercase tracking-tight">
                 {params.data.source === 'dispute' ? 'Dispute' : 'Refund'}
               </span>
               {params.data.simulated && <SimulatedLabel />}
@@ -157,21 +157,25 @@ export function QueueGrid({ items, onSelect, selectedId }: QueueGridProps) {
   return (
     <div className="w-full h-full flex flex-col bg-white">
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-12 text-center text-slate-500">
-          <p className="text-base font-semibold text-slate-700">No cases in queue</p>
-          <p className="text-xs text-slate-400 mt-1">
-            Incoming PayPal disputes and refund requests will appear here.
+        <div className="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-500">
+          <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+            <span className="text-xl">✓</span>
+          </div>
+          <p className="text-sm font-semibold text-slate-800">Queue is Clear</p>
+          <p className="text-xs text-slate-400 mt-1 max-w-sm">
+            All PayPal disputes and refund requests are currently resolved. Incoming cases will appear here automatically.
           </p>
         </div>
       ) : (
-        <div className="ag-theme-alpine w-full h-[520px]">
+        <div className="ag-theme-alpine w-full h-full flex-1">
           <AgGridReact<CaseListItem>
             rowData={items}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             onRowClicked={handleRowClick}
             rowSelection="single"
-            rowClass="cursor-pointer hover:bg-slate-50 transition-colors"
+            rowHeight={48}
+            headerHeight={38}
             animateRows={true}
           />
         </div>
