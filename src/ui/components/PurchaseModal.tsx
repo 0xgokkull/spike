@@ -285,21 +285,27 @@ export function PurchaseModal({ isOpen, onClose, onPurchased }: PurchaseModalPro
                 <div className="p-2.5 rounded bg-white border border-amber-200/80 flex items-center justify-between">
                   <div>
                     <span className="text-[10px] text-slate-400 block uppercase">Password</span>
-                    <span className="text-slate-800 font-semibold block">
-                      {pendingOrder.buyerPassword || ':R9i^Ak,'}
+                    <span className="text-slate-600 font-mono tracking-widest block select-none">
+                      ••••••••••••
                     </span>
                   </div>
                   <button
                     onClick={() =>
                       handleCopy(pendingOrder.buyerPassword || ':R9i^Ak,', 'password')
                     }
-                    className="p-1 rounded hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-sans font-medium transition-colors"
                     title="Copy Password"
                   >
                     {copiedField === 'password' ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                        <span className="text-emerald-700 font-semibold">Copied!</span>
+                      </>
                     ) : (
-                      <Copy className="h-3.5 w-3.5" />
+                      <>
+                        <Copy className="h-3.5 w-3.5" />
+                        <span>Copy Password</span>
+                      </>
                     )}
                   </button>
                 </div>
