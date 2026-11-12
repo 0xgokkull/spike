@@ -7,5 +7,5 @@ interface MoneyProps {
 }
 
 export function Money({ cents, className = '' }: MoneyProps) {
-  return <span className={`font-mono font-medium ${className}`}>{formatMoney(cents)}</span>;
+  return <span className={`font-mono tabular-nums tracking-tight font-semibold ${className}`}>{formatMoney(cents)}</span>;
 }
