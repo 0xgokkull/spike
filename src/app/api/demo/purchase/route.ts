@@ -69,7 +69,7 @@ function buildScenarioData(scenario: string) {
           amount_cents: 2000,
           currency: 'USD',
           available_actions: ['refund', 'reply'] as ('refund' | 'reply')[],
-          simulated: false,
+          simulated: true,
         },
       };
     case 'watch_contest':
@@ -95,7 +95,7 @@ function buildScenarioData(scenario: string) {
           currency: 'USD',
           deadline_at: new Date(now.getTime() + 10 * 86400000),
           available_actions: ['contest', 'refund', 'reply'] as ('contest' | 'refund' | 'reply')[],
-          simulated: false,
+          simulated: true,
         },
       };
     case 'keyboard_approval':
@@ -119,7 +119,7 @@ function buildScenarioData(scenario: string) {
           amount_cents: 8500,
           currency: 'USD',
           available_actions: ['refund', 'reply'] as ('refund' | 'reply')[],
-          simulated: false,
+          simulated: true,
         },
       };
     default:
@@ -143,7 +143,7 @@ function buildScenarioData(scenario: string) {
           amount_cents: 4500,
           currency: 'USD',
           available_actions: ['reply', 'refund'] as ('reply' | 'refund')[],
-          simulated: false,
+          simulated: true,
         },
       };
   }
@@ -183,3 +183,4 @@ export const POST = handler({
     };
   },
 });
+
