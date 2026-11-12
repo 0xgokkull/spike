@@ -89,11 +89,11 @@ export function CaseDrawer({ caseId, onClose, onCaseUpdated }: CaseDrawerProps) 
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 px-2.5 py-1 rounded-md bg-white border border-slate-200/90 hover:bg-slate-100 shadow-2xs transition-colors mr-1"
-              title="Return to Queue (Esc)"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-lg bg-white border border-slate-200/90 hover:bg-slate-50 hover:border-slate-300 shadow-2xs transition-all mr-1.5 active:scale-95"
+              title="Return to Dispute Queue (Esc)"
             >
               <ArrowLeft className="h-3.5 w-3.5 text-slate-500" />
-              <span>Back</span>
+              <span>Back to Queue</span>
             </button>
             <span className="font-mono text-sm font-bold text-slate-900">
               Case #{caseId.slice(0, 8)}
