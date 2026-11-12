@@ -55,16 +55,23 @@ export async function executeAction(
     throw new AppError('NOT_FOUND', `Order ${c.order_id} not found`);
   }
 
-  // 3. Record pending action
-  const actionRow = await actionsRepo.create(db, {
-    case_id: caseId,
-    recommendation_id: recommendationId,
-    type,
-    input: input.input,
-    idempotency_key: key,
-    actor,
-    simulated: c.simulated,
-  });
+  // 3. Record pending action (or retry existing non-succeeded action)
+  let actionRow;
+  if (existing) {
+    actionRow = await actionsRepo.update(db, existing.id, {
+      status: 'pending',
+    }) ?? existing;
+  } else {
+    actionRow = await actionsRepo.create(db, {
+      case_id: caseId,
+      recommendation_id: recommendationId,
+      type,
+      input: input.input,
+      idempotency_key: key,
+      actor,
+      simulated: c.simulated,
+    });
+  }
 
   await eventsRepo.append(db, caseId, 'action.started', actor as Actor, {
     actionId: actionRow.id,
