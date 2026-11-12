@@ -35,7 +35,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Deadline',
         field: 'deadlineAt',
-        width: 145,
+        width: 150,
+        minWidth: 140,
         cellRenderer: (params: { value: string | null }) => {
           return (
             <div className="flex items-center h-full">
@@ -47,7 +48,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Case',
         field: 'id',
-        width: 210,
+        flex: 1.2,
+        minWidth: 205,
         cellRenderer: (params: { data?: CaseListItem }) => {
           if (!params.data) return null;
           const shortId = params.data.id.slice(0, 8);
@@ -67,7 +69,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Reason',
         field: 'reason',
-        width: 180,
+        flex: 1.2,
+        minWidth: 200,
         valueFormatter: (params) => {
           return params.value ? REASON_LABELS[params.value as Reason] || params.value : '—';
         },
@@ -75,7 +78,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Amount at Risk',
         field: 'amountCents',
-        width: 130,
+        width: 165,
+        minWidth: 155,
         cellRenderer: (params: { value?: number }) => {
           return (
             <div className="flex items-center h-full">
@@ -87,7 +91,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Status',
         field: 'status',
-        width: 150,
+        width: 155,
+        minWidth: 145,
         cellRenderer: (params: { data?: CaseListItem }) => {
           if (!params.data) return null;
           return (
@@ -100,7 +105,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       {
         headerName: 'Recommended Action',
         field: 'recommendation',
-        width: 190,
+        flex: 1.4,
+        minWidth: 220,
         cellRenderer: (params: { data?: CaseListItem }) => {
           const rec = params.data?.recommendation;
           if (!rec) {
@@ -120,14 +126,15 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
 
           return (
             <div className="flex items-center h-full">
-              <span className="text-xs font-medium text-slate-800">{actionText}</span>
+              <span className="text-xs font-semibold text-slate-800">{actionText}</span>
             </div>
           );
         },
       },
       {
         headerName: 'Mode',
-        width: 150,
+        width: 175,
+        minWidth: 165,
         cellRenderer: (params: { data?: CaseListItem }) => {
           const rec = params.data?.recommendation;
           if (!rec) return <span className="text-slate-400">—</span>;
@@ -173,7 +180,7 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
           </p>
         </div>
       ) : (
-        <div className="ag-theme-alpine w-full h-[560px] min-h-[400px]">
+        <div className="ag-theme-alpine w-full h-full flex-1 min-h-[420px]">
           <AgGridReact<CaseListItem>
             theme="legacy"
             rowData={items}
