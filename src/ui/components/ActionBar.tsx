@@ -105,13 +105,13 @@ export function ActionBar({ detail, onDecide, isSubmitting = false }: ActionBarP
   };
 
   return (
-    <div className="bg-white border-t border-slate-200 p-4 space-y-3">
+    <div className="bg-slate-50/90 border-t border-slate-200/80 p-5 space-y-3">
       <div className="flex items-center gap-2">
         {/* 1. Approve Button */}
         <div className="flex-1" title={!canApprove ? approveDisabledReason : undefined}>
           <Button
             variant="primary"
-            className="w-full flex items-center justify-center gap-1.5 font-semibold text-xs py-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="w-full flex items-center justify-center gap-1.5 font-medium text-xs py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs border border-blue-700/30 transition-all duration-150"
             onClick={handleApprove}
             disabled={!canApprove || isSubmitting}
           >
@@ -124,7 +124,7 @@ export function ActionBar({ detail, onDecide, isSubmitting = false }: ActionBarP
         <div title={!canEdit ? editDisabledReason : undefined}>
           <Button
             variant="secondary"
-            className="flex items-center gap-1.5 text-xs py-2 px-3 text-slate-700"
+            className="flex items-center gap-1.5 text-xs py-2.5 px-3.5 text-slate-700 hover:text-slate-900 border-slate-200/80 shadow-xs transition-all duration-150"
             onClick={() => setShowEditDialog(true)}
             disabled={!canEdit || isSubmitting}
           >
@@ -137,7 +137,7 @@ export function ActionBar({ detail, onDecide, isSubmitting = false }: ActionBarP
         <div title={!canSnooze ? snoozeDisabledReason : undefined}>
           <Button
             variant="outline"
-            className="flex items-center gap-1.5 text-xs py-2 px-3 text-slate-600"
+            className="flex items-center gap-1.5 text-xs py-2.5 px-3.5 text-slate-600 hover:text-slate-900 border-slate-200/80 shadow-xs transition-all duration-150"
             onClick={() => setShowSnoozeDialog(true)}
             disabled={!canSnooze || isSubmitting}
           >
@@ -157,14 +157,14 @@ export function ActionBar({ detail, onDecide, isSubmitting = false }: ActionBarP
 
       {/* Edit Dialog Modal */}
       {showEditDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-5 space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h3 className="text-sm font-bold text-slate-800">Edit Proposed Action</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4 animate-fade-in">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 space-y-4 border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-sm font-semibold text-slate-900">Edit Proposed Action</h3>
               <button
                 type="button"
                 onClick={() => setShowEditDialog(false)}
-                className="text-slate-400 hover:text-slate-600 text-lg leading-none"
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-md text-lg leading-none"
               >
                 &times;
               </button>
