@@ -188,8 +188,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
             defaultColDef={defaultColDef}
             onRowClicked={handleRowClick}
             rowSelection="single"
-            rowHeight={48}
-            headerHeight={38}
+            rowHeight={50}
+            headerHeight={40}
             animateRows={true}
           />
         </div>
