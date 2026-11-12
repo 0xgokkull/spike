@@ -114,7 +114,7 @@ export default function DayClosePage() {
               href="/"
               className="inline-flex items-center px-4 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-colors"
             >
-              Return to Resolution Desk Queue
+              Return to Spike Queue
             </Link>
           </div>
         </div>
