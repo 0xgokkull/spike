@@ -200,15 +200,19 @@ describe('End-to-End Demo Flow (Step 7)', () => {
       simulated: true,
     });
 
+    const tomorrow = clock.now();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowIso = tomorrow.toISOString().split('T')[0];
+
     await decideCase(db, paypal, {
       caseId: caseSnooze.id,
       decision: 'snooze',
-      until: '2026-11-12',
+      until: tomorrowIso,
     });
 
     const snoozed = await casesRepo.findById(db, caseSnooze.id);
     expect(snoozed?.status).toBe('snoozed');
-    expect(snoozed?.snoozed_until).toBe('2026-11-12');
+    expect(snoozed?.snoozed_until).toBe(tomorrowIso);
 
     // Advance simulated clock by 1 day and wake snoozed cases
     clock.setOffsetDays(1);
