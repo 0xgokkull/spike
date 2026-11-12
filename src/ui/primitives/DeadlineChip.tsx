@@ -1,4 +1,5 @@
 import React from 'react';
+import { Clock, AlertTriangle } from 'lucide-react';
 
 interface DeadlineChipProps {
   deadlineAt: string | null;
@@ -7,7 +8,7 @@ interface DeadlineChipProps {
 
 export function DeadlineChip({ deadlineAt, className = '' }: DeadlineChipProps) {
   if (!deadlineAt) {
-    return <span className={`text-gray-400 text-xs ${className}`}>No deadline</span>;
+    return <span className={`text-slate-400 text-xs font-normal ${className}`}>No deadline</span>;
   }
 
   const deadline = new Date(deadlineAt);
@@ -19,9 +20,11 @@ export function DeadlineChip({ deadlineAt, className = '' }: DeadlineChipProps) 
   if (diffMs <= 0) {
     return (
       <span
-        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-rose-600 text-white ${className}`}
+        suppressHydrationWarning
+        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200/80 shadow-xs ${className}`}
       >
-        Overdue
+        <AlertTriangle className="h-3 w-3 text-rose-600" />
+        <span>Overdue</span>
       </span>
     );
   }
@@ -29,9 +32,11 @@ export function DeadlineChip({ deadlineAt, className = '' }: DeadlineChipProps) 
   if (diffHours <= 24) {
     return (
       <span
-        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-500 text-white ${className}`}
+        suppressHydrationWarning
+        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200/80 shadow-xs ${className}`}
       >
-        Due Today ({diffHours}h)
+        <Clock className="h-3 w-3 text-amber-600 animate-pulse" />
+        <span>Due Today ({diffHours}h)</span>
       </span>
     );
   }
@@ -39,18 +44,22 @@ export function DeadlineChip({ deadlineAt, className = '' }: DeadlineChipProps) 
   if (diffDays <= 3) {
     return (
       <span
-        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300 ${className}`}
+        suppressHydrationWarning
+        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-50/60 text-amber-800 border border-amber-200/60 ${className}`}
       >
-        Due in {diffDays}d
+        <Clock className="h-3 w-3 text-amber-600" />
+        <span>Due in {diffDays}d</span>
       </span>
     );
   }
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200 ${className}`}
+      suppressHydrationWarning
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200/80 ${className}`}
     >
-      Due in {diffDays}d
+      <Clock className="h-3 w-3 text-slate-400" />
+      <span>Due in {diffDays}d</span>
     </span>
   );
 }
