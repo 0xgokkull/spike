@@ -134,32 +134,34 @@ export default function DayClosePage() {
   }));
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
-      {closeError && (
-        <div className="p-4 bg-rose-50 text-rose-700 rounded-lg text-xs border border-rose-200">
-          {closeError}
-        </div>
-      )}
+    <div className="flex-1 overflow-y-auto bg-slate-50 p-6 md:p-8">
+      <div className="max-w-5xl mx-auto space-y-6">
+        {closeError && (
+          <div className="p-4 bg-rose-50 text-rose-700 rounded-lg text-xs border border-rose-200 animate-fade-in">
+            {closeError}
+          </div>
+        )}
 
-      {/* 1. Day Close Gate */}
-      <DayCloseGate
-        blockers={data.blockers}
-        totalUnacknowledged={data.unacknowledged.length}
-        acknowledgedCount={acknowledgedIds.length}
-        onClose={handleCloseDay}
-        isClosing={isClosing}
-      />
+        {/* 1. Day Close Gate */}
+        <DayCloseGate
+          blockers={data.blockers}
+          totalUnacknowledged={data.unacknowledged.length}
+          acknowledgedCount={acknowledgedIds.length}
+          onClose={handleCloseDay}
+          isClosing={isClosing}
+        />
 
-      {/* 2. Unacknowledged Auto Actions List */}
-      <AckList
-        items={data.unacknowledged}
-        acknowledgedIds={acknowledgedIds}
-        onToggle={handleToggleAck}
-        onAckAll={handleAckAll}
-      />
+        {/* 2. Unacknowledged Auto Actions List */}
+        <AckList
+          items={data.unacknowledged}
+          acknowledgedIds={acknowledgedIds}
+          onToggle={handleToggleAck}
+          onAckAll={handleAckAll}
+        />
 
-      {/* 3. Executed Actions Ledger Table */}
-      <DayCloseGrid items={actionsList} />
+        {/* 3. Executed Actions Ledger Table */}
+        <DayCloseGrid items={actionsList} />
+      </div>
     </div>
   );
 }
