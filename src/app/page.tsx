@@ -6,9 +6,9 @@ import type { CaseListItem } from '@/domain/types';
 import { SyncBar } from '@/ui/components/SyncBar';
 import { QueueGrid } from '@/ui/components/QueueGrid';
 import { CaseDrawer } from '@/ui/components/CaseDrawer';
-import { DemoControls } from '@/ui/components/DemoControls';
+import { PurchaseModal } from '@/ui/components/PurchaseModal';
 import { Money } from '@/ui/primitives/Money';
-import { Layers, AlertTriangle, ShieldCheck, Clock, CheckCircle } from 'lucide-react';
+import { Layers, AlertTriangle, Clock, CheckCircle } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -16,6 +16,7 @@ export default function QueuePage() {
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
   const [activeBucket, setActiveBucket] = useState<'all' | 'actionable' | 'waiting' | 'snoozed' | 'resolved'>('all');
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 
   const { data: cases = [], mutate, isValidating, isLoading } = useSWR<CaseListItem[]>(
     activeBucket === 'all' ? '/api/cases' : `/api/cases?bucket=${activeBucket}`,
@@ -46,22 +47,19 @@ export default function QueuePage() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-slate-50 overflow-hidden">
-      {/* 1. Simulator Controls */}
-      <DemoControls
-        onAdvanceDay={() => mutate()}
-        onReset={() => mutate()}
-      />
-
-      {/* 2. Connection Status Bar */}
+      {/* 1. Unified Control Bar: Live Connection & Actions */}
       <SyncBar
         lastSyncAt={new Date().toISOString()}
         paypalMode="sandbox"
         onSync={handleSync}
         isSyncing={isSyncing || isValidating}
+        onOpenPurchase={() => setIsPurchaseModalOpen(true)}
+        onAdvanceDay={() => mutate()}
+        onReset={() => mutate()}
       />
 
-      {/* 3. Compact Financial Overview Metrics Strip */}
-      <div className="px-6 py-4 bg-white border-b border-slate-200/80">
+      {/* 2. Compact Financial Overview Metrics Strip */}
+      <div className="px-6 py-3 bg-white border-b border-slate-200/80 flex-shrink-0">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 shadow-2xs hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between text-slate-500 mb-1">
@@ -200,6 +198,16 @@ export default function QueuePage() {
           caseId={selectedCaseId}
           onClose={() => setSelectedCaseId(null)}
           onCaseUpdated={() => mutate()}
+        />
+
+        {/* 6. Purchase Scenario Modal */}
+        <PurchaseModal
+          isOpen={isPurchaseModalOpen}
+          onClose={() => setIsPurchaseModalOpen(false)}
+          onPurchased={(caseId) => {
+            mutate();
+            setSelectedCaseId(caseId);
+          }}
         />
       </div>
     </div>
