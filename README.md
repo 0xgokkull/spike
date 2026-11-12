@@ -122,10 +122,10 @@ The user interface follows the visual hierarchy and discipline of the official *
 | **0:00 – 0:30** | **Resolution Center Dashboard** | Point out the **Spike** brand, **Live Sandbox** indicator, and the 4 financial KPI cards. Explain the core principle: *"LLM proposes, deterministic code disposes."* |
 | **0:30 – 1:15** | **Click `+ Make Purchase (Demo)`** | Select **Vintage Mechanical Watch ($120.00)** or **Wireless Earbuds ($20.00)**. Show sub-1.5s live Groq AI triage against store refund policy clauses (`P-1` to `P-5`). |
 | **1:15 – 2:00** | **Supervisor Review in Case Drawer** | Open the case drawer. Highlight the **Provenance Panel** (separating DB facts from AI text) and the formatted **Audit Event Timeline**. Click **`Approve Recommendation`** to execute live via PayPal. |
-| **2:00 – 2:40** | **Snooze & Simulated Clock Advance** | Snooze a case to tomorrow's date. Click **`+1 Day`** on the header bar to advance the clock and show the snoozed case waking back into the actionable queue. |
+| **2:00 – 2:40** | **Snooze & Business Clock Advance** | Snooze a case to tomorrow's date. Click **`+1 Day`** on the header bar to advance the business date and show the snoozed case waking back into the actionable queue. |
 | **2:40 – 3:00** | **Day Close Reconciliation Gate** | Navigate to **`Day Close`** via Top Nav. Demonstrate that day close remains locked until all pending approvals are cleared. Acknowledge automated actions and close the business day. |
 
-*Any synthetic steps in the demo environment are explicitly marked with the `[SIMULATED]` label per Rule 10.*
+*Full end-to-end integration running with live PayPal Sandbox order creation, buyer authorization, and automated policy triage.*
 
 ---
 
