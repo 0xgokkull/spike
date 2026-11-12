@@ -1,4 +1,4 @@
-# Resolution Desk
+# Spike
 
 > A daily, deadline-driven queue where an AI agent resolves PayPal refund requests and disputes for small online sellers. It acts on its own inside limits the seller sets, and asks before anything material.
 
