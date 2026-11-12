@@ -2,9 +2,11 @@
 
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import type { ColDef, RowClickedEvent } from 'ag-grid-community';
+import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClickedEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 import type { CaseListItem, Reason } from '@/domain/types';
 import { StatusBadge } from '@/ui/primitives/StatusBadge';
