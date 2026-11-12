@@ -5,6 +5,7 @@ import { FakePayPal } from './fake';
 
 export * from './port';
 export * from './mappers';
+export * from './orders';
 export { RealPayPal } from './real';
 export { FakePayPal } from './fake';
 
