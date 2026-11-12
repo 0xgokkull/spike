@@ -2,31 +2,31 @@
 
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClickedEvent } from 'ag-grid-community';
+import type { ColDef, RowClickedEvent } from 'ag-grid-community';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+
 import type { CaseListItem, Reason } from '@/domain/types';
 import { StatusBadge } from '@/ui/primitives/StatusBadge';
 import { ModeBadge } from '@/ui/primitives/ModeBadge';
-import { Money } from '@/ui/primitives/Money';
-import { DeadlineChip } from '@/ui/primitives/DeadlineChip';
 import { SimulatedLabel } from '@/ui/primitives/SimulatedLabel';
+import { DeadlineChip } from '@/ui/primitives/DeadlineChip';
+import { Money } from '@/ui/primitives/Money';
 import { formatMoney } from '@/lib/money';
-
-// Register AG Grid Community modules
-ModuleRegistry.registerModules([AllCommunityModule]);
 
 export interface QueueGridProps {
   items: CaseListItem[];
-  onSelect: (id: string) => void;
+  onSelect: (caseId: string) => void;
   selectedId?: string | null;
   isLoading?: boolean;
 }
 
 const REASON_LABELS: Record<Reason, string> = {
   MERCHANDISE_OR_SERVICE_NOT_RECEIVED: 'Item Not Received',
-  MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED: 'Not as Described',
+  MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED: 'Item Not as Described',
   UNAUTHORISED: 'Unauthorised Transaction',
-  BUYER_CANCELLED_SERVICE: 'Buyer Cancelled',
-  OTHER: 'Other / Inquiries',
+  BUYER_CANCELLED_SERVICE: 'Buyer Cancelled Service',
+  OTHER: 'Customer Inquiry / Other',
 };
 
 export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: QueueGridProps) {
@@ -150,8 +150,8 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
 
   const defaultColDef = useMemo<ColDef>(() => {
     return {
-      sortable: true,
       resizable: true,
+      sortable: true,
       suppressMovable: true,
     };
   }, []);
@@ -163,24 +163,24 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-white">
+    <div className="w-full bg-white select-none">
       {isLoading ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-400">
+        <div className="w-full h-[360px] flex flex-col items-center justify-center p-16 text-center text-slate-400">
           <div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mb-3" />
           <span className="text-xs font-medium text-slate-500">Loading dispute queue...</span>
         </div>
       ) : items.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-500">
+        <div className="w-full h-[320px] flex flex-col items-center justify-center p-8 text-center text-slate-500">
           <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
             <span className="text-xl">✓</span>
           </div>
-          <p className="text-sm font-semibold text-slate-800">Queue is Clear</p>
+          <p className="text-sm font-semibold text-slate-800">No Cases in this View</p>
           <p className="text-xs text-slate-400 mt-1 max-w-sm">
-            All PayPal disputes and refund requests are currently resolved. Incoming cases will appear here automatically.
+            There are currently no cases matching the selected filter. Switch tabs to view other cases.
           </p>
         </div>
       ) : (
-        <div className="ag-theme-alpine w-full h-full flex-1 min-h-[420px]">
+        <div className="ag-theme-alpine w-full h-[480px]">
           <AgGridReact<CaseListItem>
             theme="legacy"
             rowData={items}
