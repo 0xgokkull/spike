@@ -8,7 +8,7 @@ import { QueueGrid } from '@/ui/components/QueueGrid';
 import { CaseDrawer } from '@/ui/components/CaseDrawer';
 import { PurchaseModal } from '@/ui/components/PurchaseModal';
 import { Money } from '@/ui/primitives/Money';
-import { Layers, AlertTriangle, Clock, CheckCircle } from 'lucide-react';
+import { Layers, AlertTriangle, ShieldAlert, CheckCircle, Scale, ShieldCheck } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -35,7 +35,7 @@ export default function QueuePage() {
     }
   };
 
-  // Derived summaries
+  // Derived financial & queue metrics
   const totalCases = cases.length;
   const actionableCount = cases.filter(
     (c) => c.status === 'awaiting_approval' || c.status === 'action_ready' || c.status === 'new'
@@ -46,178 +46,218 @@ export default function QueuePage() {
   const totalAmountAtRiskCents = cases.reduce((acc, c) => acc + c.amountCents, 0);
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-slate-50 overflow-hidden">
-      {/* 1. Unified Control Bar: Live Connection & Actions */}
-      <SyncBar
-        lastSyncAt={new Date().toISOString()}
-        paypalMode="sandbox"
-        onSync={handleSync}
-        isSyncing={isSyncing || isValidating}
-        onOpenPurchase={() => setIsPurchaseModalOpen(true)}
-        onAdvanceDay={() => mutate()}
-        onReset={() => mutate()}
-      />
+    <div className="flex-1 overflow-y-auto bg-[#F5F7FA] py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        {/* 1. Header with PayPal Portal Context & Quick Actions */}
+        <SyncBar
+          lastSyncAt={new Date().toISOString()}
+          paypalMode="sandbox"
+          onSync={handleSync}
+          isSyncing={isSyncing || isValidating}
+          onOpenPurchase={() => setIsPurchaseModalOpen(true)}
+          onAdvanceDay={() => mutate()}
+          onReset={() => mutate()}
+        />
 
-      {/* 2. Compact Financial Overview Metrics Strip */}
-      <div className="px-6 py-3 bg-white border-b border-slate-200/80 flex-shrink-0">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-          <div className="p-3.5 rounded-xl border border-slate-200/90 bg-gradient-to-b from-white to-slate-50/60 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all">
-            <div className="flex items-center justify-between text-slate-500 mb-1.5">
-              <span className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Total Cases</span>
-              <div className="h-6 w-6 rounded-md bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-600">
-                <Layers className="h-3.5 w-3.5" />
+        {/* 2. Executive Overview Metrics Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {/* Card 1: Total Queue */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+            <div className="flex items-center justify-between text-slate-500 mb-2">
+              <span className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">
+                Total Cases
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-600">
+                <Layers className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-slate-900 tabular-nums tracking-tight">
+            <div className="text-3xl font-bold text-slate-900 tabular-nums tracking-tight">
               {totalCases}
             </div>
-            <span className="text-[11px] text-slate-400 font-medium mt-0.5 block">Active dispute queue</span>
+            <span className="text-xs text-slate-400 font-medium mt-1 block">
+              Active in resolution queue
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-amber-200/90 bg-gradient-to-b from-white to-amber-50/30 shadow-2xs hover:shadow-xs hover:border-amber-300 transition-all">
-            <div className="flex items-center justify-between text-amber-800 mb-1.5">
-              <span className="text-[11px] font-semibold tracking-wider text-amber-800 uppercase">Actionable</span>
-              <div className="h-6 w-6 rounded-md bg-amber-100/80 border border-amber-300/60 flex items-center justify-center text-amber-700">
-                <AlertTriangle className="h-3.5 w-3.5" />
+          {/* Card 2: Action Required */}
+          <div className="bg-white rounded-2xl p-5 border border-amber-200/90 shadow-xs hover:border-amber-300 hover:shadow-sm transition-all">
+            <div className="flex items-center justify-between text-amber-800 mb-2">
+              <span className="text-[11px] font-bold tracking-wider text-amber-800 uppercase">
+                Action Required
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-700">
+                <AlertTriangle className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-amber-900 tabular-nums tracking-tight">
+            <div className="text-3xl font-bold text-amber-900 tabular-nums tracking-tight">
               {actionableCount}
             </div>
-            <span className="text-[11px] text-amber-700/80 font-medium mt-0.5 block">Needs review or decision</span>
+            <span className="text-xs text-amber-700/80 font-medium mt-1 block">
+              Pending review or approval
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-indigo-200/80 bg-gradient-to-b from-white to-indigo-50/30 shadow-2xs hover:shadow-xs hover:border-indigo-300 transition-all">
-            <div className="flex items-center justify-between text-slate-500 mb-1.5">
-              <span className="text-[11px] font-semibold tracking-wider text-slate-600 uppercase">Amount at Risk</span>
-              <div className="h-6 w-6 rounded-md bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-indigo-600">
-                <Clock className="h-3.5 w-3.5" />
+          {/* Card 3: Amount at Risk */}
+          <div className="bg-white rounded-2xl p-5 border border-indigo-200/80 shadow-xs hover:border-indigo-300 hover:shadow-sm transition-all">
+            <div className="flex items-center justify-between text-indigo-900 mb-2">
+              <span className="text-[11px] font-bold tracking-wider text-indigo-800 uppercase">
+                Amount at Risk
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-indigo-600">
+                <Scale className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-slate-900 tabular-nums tracking-tight">
+            <div className="text-3xl font-bold text-slate-900 tabular-nums tracking-tight">
               <Money cents={totalAmountAtRiskCents} />
             </div>
-            <span className="text-[11px] text-slate-400 font-medium mt-0.5 block">Guarded capital exposure</span>
+            <span className="text-xs text-slate-400 font-medium mt-1 block">
+              Guarded disputed capital
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-emerald-200/80 bg-gradient-to-b from-white to-emerald-50/30 shadow-2xs hover:shadow-xs hover:border-emerald-300 transition-all">
-            <div className="flex items-center justify-between text-emerald-800 mb-1.5">
-              <span className="text-[11px] font-semibold tracking-wider text-emerald-800 uppercase">Resolved</span>
-              <div className="h-6 w-6 rounded-md bg-emerald-100/80 border border-emerald-300/60 flex items-center justify-center text-emerald-700">
-                <CheckCircle className="h-3.5 w-3.5" />
+          {/* Card 4: Resolved */}
+          <div className="bg-white rounded-2xl p-5 border border-emerald-200/80 shadow-xs hover:border-emerald-300 hover:shadow-sm transition-all">
+            <div className="flex items-center justify-between text-emerald-800 mb-2">
+              <span className="text-[11px] font-bold tracking-wider text-emerald-800 uppercase">
+                Resolved
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-700">
+                <CheckCircle className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-emerald-950 tabular-nums tracking-tight">
+            <div className="text-3xl font-bold text-emerald-950 tabular-nums tracking-tight">
               {resolvedCount}
             </div>
-            <span className="text-[11px] text-emerald-700/80 font-medium mt-0.5 block">Closed & ledger locked</span>
+            <span className="text-xs text-emerald-700/80 font-medium mt-1 block">
+              Closed & ledger settled
+            </span>
+          </div>
+        </div>
+
+        {/* 3. Main Card: Structured Dispute Management Table */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+          {/* Card Filter Tabs & Context Strip */}
+          <div className="px-5 py-3 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 bg-white select-none">
+            <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200/70">
+              <button
+                onClick={() => setActiveBucket('all')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  activeBucket === 'all'
+                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>All Cases</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-700 font-mono">
+                  {totalCases}
+                </span>
+              </button>
+              <button
+                onClick={() => setActiveBucket('actionable')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  activeBucket === 'actionable'
+                    ? 'bg-white text-amber-900 shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Actionable</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-mono">
+                  {actionableCount}
+                </span>
+              </button>
+              <button
+                onClick={() => setActiveBucket('waiting')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  activeBucket === 'waiting'
+                    ? 'bg-white text-blue-900 shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Waiting on PayPal</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-mono">
+                  {waitingCount}
+                </span>
+              </button>
+              <button
+                onClick={() => setActiveBucket('snoozed')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  activeBucket === 'snoozed'
+                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Snoozed</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 font-mono">
+                  {snoozedCount}
+                </span>
+              </button>
+              <button
+                onClick={() => setActiveBucket('resolved')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  activeBucket === 'resolved'
+                    ? 'bg-white text-emerald-900 shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Resolved</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-mono">
+                  {resolvedCount}
+                </span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs text-slate-500">
+              <span className="font-medium">
+                Showing <strong className="text-slate-800 font-bold">{cases.length}</strong> items
+              </span>
+              <span className="text-slate-300">•</span>
+              <span className="text-slate-400 font-mono text-[11px]">
+                Auto-Refund Cap: $25.00
+              </span>
+            </div>
+          </div>
+
+          {/* Table Container */}
+          <div className="w-full min-h-[460px]">
+            <QueueGrid
+              items={cases}
+              onSelect={(id) => setSelectedCaseId(id)}
+              selectedId={selectedCaseId}
+              isLoading={isLoading}
+            />
+          </div>
+
+          {/* Card Footer: Supervisory Invariants */}
+          <div className="px-5 py-3 bg-slate-50/80 border-t border-slate-200/80 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2 select-none">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-emerald-600" />
+              <span>
+                <strong>Supervised Autonomy Active:</strong> Deterministic gate enforces auto refunds up to $25. Contests & high-value claims require approval.
+              </span>
+            </div>
+            <span className="text-slate-400 font-mono text-[11px]">
+              Policy Engine: P-1 to P-5 Active
+            </span>
           </div>
         </div>
       </div>
 
-      {/* 4. Filter Tabs & Status Sub-header */}
-      <div className="bg-white border-b border-slate-200/80 px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 flex-shrink-0 select-none">
-        <div className="flex items-center gap-1 p-0.5 bg-slate-100/90 rounded-lg border border-slate-200/70">
-          <button
-            onClick={() => setActiveBucket('all')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-1.5 ${
-              activeBucket === 'all'
-                ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80 font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>All Cases</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600 font-mono">
-              {totalCases}
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveBucket('actionable')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-1.5 ${
-              activeBucket === 'actionable'
-                ? 'bg-white text-amber-900 shadow-xs border border-amber-200/80 font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>Actionable</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-mono">
-              {actionableCount}
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveBucket('waiting')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-1.5 ${
-              activeBucket === 'waiting'
-                ? 'bg-white text-blue-900 shadow-xs border border-blue-200/80 font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>Waiting on PayPal</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-mono">
-              {waitingCount}
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveBucket('snoozed')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-1.5 ${
-              activeBucket === 'snoozed'
-                ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80 font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>Snoozed</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 font-mono">
-              {snoozedCount}
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveBucket('resolved')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-1.5 ${
-              activeBucket === 'resolved'
-                ? 'bg-white text-emerald-900 shadow-xs border border-emerald-200/80 font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>Resolved</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-mono">
-              {resolvedCount}
-            </span>
-          </button>
-        </div>
+      {/* Slide-over Case Drawer */}
+      <CaseDrawer
+        caseId={selectedCaseId}
+        onClose={() => setSelectedCaseId(null)}
+        onCaseUpdated={() => mutate()}
+      />
 
-        <div className="flex items-center gap-4 text-xs">
-          <div className="text-slate-500 font-medium">
-            Showing <span className="font-semibold text-slate-800">{cases.length}</span> cases
-          </div>
-        </div>
-      </div>
-
-      {/* 4. AG Grid Table Area */}
-      <div className="flex-1 relative overflow-hidden">
-        <QueueGrid
-          items={cases}
-          onSelect={(id) => setSelectedCaseId(id)}
-          selectedId={selectedCaseId}
-          isLoading={isLoading}
-        />
-
-        {/* 5. Slide-over Case Drawer */}
-        <CaseDrawer
-          caseId={selectedCaseId}
-          onClose={() => setSelectedCaseId(null)}
-          onCaseUpdated={() => mutate()}
-        />
-
-        {/* 6. Purchase Scenario Modal */}
-        <PurchaseModal
-          isOpen={isPurchaseModalOpen}
-          onClose={() => setIsPurchaseModalOpen(false)}
-          onPurchased={(caseId) => {
-            mutate();
-            setSelectedCaseId(caseId);
-          }}
-        />
-      </div>
+      {/* Purchase Scenario Modal */}
+      <PurchaseModal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        onPurchased={(caseId) => {
+          mutate();
+          setSelectedCaseId(caseId);
+        }}
+      />
     </div>
   );
 }
