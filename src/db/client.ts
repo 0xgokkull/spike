@@ -8,9 +8,10 @@ let client: postgres.Sql | null = null;
 export function getDb() {
   if (!client) {
     client = postgres(env.DATABASE_URL, {
-      max: 10,
+      max: process.env.VERCEL ? 2 : 10,
       idle_timeout: 20,
       connect_timeout: 10,
+      prepare: false, // Essential for Supabase transaction pooler and Vercel serverless functions
     });
   }
   return drizzle(client, { schema });
