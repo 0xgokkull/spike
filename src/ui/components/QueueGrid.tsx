@@ -175,6 +175,7 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
       ) : (
         <div className="ag-theme-alpine w-full h-[560px] min-h-[400px]">
           <AgGridReact<CaseListItem>
+            theme="legacy"
             rowData={items}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
