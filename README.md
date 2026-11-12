@@ -21,7 +21,6 @@
 |---|---|
 | [README.md](README.md) | Product overview, live demo walkthrough, quick start, and hackathon rubric mapping (this file) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Full architectural blueprint, module tree, reuse index, domain state machine, and PayPal contracts |
-| [AGENTS.md](AGENTS.md) | Locked engineering invariants and workflow rules for AI coding agents |
 | [PROGRESS.md](PROGRESS.md) | Complete chronological audit log, task board, and changelog |
 | [SPIKE.md](SPIKE.md) | Empirical results and live network verification of the PayPal Disputes & Payments API spike |
 | [DEVPOST_SUBMISSION.md](DEVPOST_SUBMISSION.md) | Pre-written submission package for Devpost (story, tracks, and AI disclosures) |
@@ -222,7 +221,7 @@ pnpm check
 |---|---|---|
 | **Runtime LLM** | Groq (`qwen/qwen3.8-27b`) | Sub-1.5s structured JSON triage, policy-bound proposals, evidence narrative, and buyer message drafting. |
 | **PayPal Integration** | `@paypal/agent-toolkit`, PayPal Disputes & Payments REST APIs | Live sandbox capture refunds, dispute evidence submissions, and idempotency tracking. |
-| **Development Assistance** | Antigravity AI pair programmer | Scaffolding, architecture adherence, test generation, and documentation under [AGENTS.md](AGENTS.md) rules. |
+| **Development Assistance** | Antigravity AI pair programmer | Scaffolding, architecture adherence, test generation, and documentation under [ARCHITECTURE.md](ARCHITECTURE.md) design invariants. |
 
 ---
 
