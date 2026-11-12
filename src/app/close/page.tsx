@@ -134,8 +134,8 @@ export default function DayClosePage() {
   }));
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50 p-6 md:p-8">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="flex-1 overflow-y-auto bg-[#F5F7FA] py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Back Navigation Bar */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200/90">
           <Link
