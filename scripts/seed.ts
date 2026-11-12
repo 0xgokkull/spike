@@ -5,6 +5,7 @@ import { casesRepo } from '../src/db/repos/cases';
 import { syncCases } from '../src/services/syncCases';
 import { createPayPal } from '../src/integrations/paypal';
 import { logger } from '../src/lib/logger';
+import { env } from '../src/lib/env';
 import type { PolicyRules } from '../src/domain/types';
 
 async function seed() {
@@ -52,77 +53,81 @@ async function seed() {
     logger.info('Seeded active store policy (version 1)');
   }
 
-  // 2. Seed Demo Orders
-  const now = new Date();
-  const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000);
-  const fiveDaysAgo = new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000);
+  // 2. Only seed mock/demo cases if explicit --demo flag is passed or PAYPAL_MODE is fake
+  const isDemo = process.argv.includes('--demo') || env.PAYPAL_MODE === 'fake';
+  if (isDemo) {
+    const now = new Date();
+    const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000);
+    const fiveDaysAgo = new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000);
 
-  const orderWatch = await ordersRepo.create(db, {
-    item: 'Vintage Mechanical Watch',
-    amount_cents: 12000,
-    currency: 'USD',
-    paypal_order_id: 'ORD-WATCH-001',
-    paypal_capture_id: 'CAP-SIMULATED-120USD',
-    carrier: 'FEDEX',
-    tracking_number: '987654321098',
-    tracking_status: 'delivered',
-    shipped_at: fiveDaysAgo,
-    delivered_at: threeDaysAgo,
-  });
+    const orderWatch = await ordersRepo.create(db, {
+      item: 'Vintage Mechanical Watch',
+      amount_cents: 12000,
+      currency: 'USD',
+      paypal_order_id: 'ORD-WATCH-001',
+      paypal_capture_id: 'CAP-SIMULATED-120USD',
+      carrier: 'FEDEX',
+      tracking_number: '987654321098',
+      tracking_status: 'delivered',
+      shipped_at: fiveDaysAgo,
+      delivered_at: threeDaysAgo,
+    });
 
-  const orderEarbuds = await ordersRepo.create(db, {
-    item: 'Wireless Noise-Canceling Earbuds',
-    amount_cents: 2000, // $20.00 (under $25 cap)
-    currency: 'USD',
-    paypal_order_id: 'ORD-EARBUDS-002',
-    paypal_capture_id: 'CAP-SIMULATED-20USD',
-    carrier: 'USPS',
-    tracking_number: '9400111899562537',
-    tracking_status: 'in_transit', // not delivered
-    shipped_at: fiveDaysAgo,
-  });
+    const orderEarbuds = await ordersRepo.create(db, {
+      item: 'Wireless Noise-Canceling Earbuds',
+      amount_cents: 2000, // $20.00 (under $25 cap)
+      currency: 'USD',
+      paypal_order_id: 'ORD-EARBUDS-002',
+      paypal_capture_id: 'CAP-SIMULATED-20USD',
+      carrier: 'USPS',
+      tracking_number: '9400111899562537',
+      tracking_status: 'in_transit', // not delivered
+      shipped_at: fiveDaysAgo,
+    });
 
-  const orderKeyboard = await ordersRepo.create(db, {
-    item: 'Custom Mechanical Keyboard',
-    amount_cents: 8500, // $85.00 (above $25 cap)
-    currency: 'USD',
-    paypal_order_id: 'ORD-KEYBOARD-003',
-    paypal_capture_id: 'CAP-SIMULATED-85USD',
-    carrier: 'UPS',
-    tracking_number: '1Z9999999999999999',
-    tracking_status: 'delivered',
-    shipped_at: fiveDaysAgo,
-    delivered_at: threeDaysAgo,
-  });
+    const orderKeyboard = await ordersRepo.create(db, {
+      item: 'Custom Mechanical Keyboard',
+      amount_cents: 8500, // $85.00 (above $25 cap)
+      currency: 'USD',
+      paypal_order_id: 'ORD-KEYBOARD-003',
+      paypal_capture_id: 'CAP-SIMULATED-85USD',
+      carrier: 'UPS',
+      tracking_number: '1Z9999999999999999',
+      tracking_status: 'delivered',
+      shipped_at: fiveDaysAgo,
+      delivered_at: threeDaysAgo,
+    });
 
-  logger.info('Seeded orders (Watch, Earbuds, Keyboard)');
+    logger.info('Seeded demo orders (Watch, Earbuds, Keyboard)');
 
-  // 3. Seed Refund Request Cases
-  await casesRepo.create(db, {
-    source: 'refund_request',
-    order_id: orderEarbuds.id,
-    reason: 'MERCHANDISE_OR_SERVICE_NOT_RECEIVED',
-    buyer_message: 'Hi, tracking has been stuck for 5 days and I never received my earbuds. Can you please refund my $20?',
-    amount_cents: 2000,
-    status: 'new',
-    available_actions: ['refund', 'reply'],
-    simulated: true,
-  });
+    await casesRepo.create(db, {
+      source: 'refund_request',
+      order_id: orderEarbuds.id,
+      reason: 'MERCHANDISE_OR_SERVICE_NOT_RECEIVED',
+      buyer_message: 'Hi, tracking has been stuck for 5 days and I never received my earbuds. Can you please refund my $20?',
+      amount_cents: 2000,
+      status: 'new',
+      available_actions: ['refund', 'reply'],
+      simulated: true,
+    });
 
-  await casesRepo.create(db, {
-    source: 'refund_request',
-    order_id: orderKeyboard.id,
-    reason: 'MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED',
-    buyer_message: 'The keyboard arrived with two sticky keys. I would like a refund or partial discount.',
-    amount_cents: 8500,
-    status: 'new',
-    available_actions: ['refund', 'reply'],
-    simulated: true,
-  });
+    await casesRepo.create(db, {
+      source: 'refund_request',
+      order_id: orderKeyboard.id,
+      reason: 'MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED',
+      buyer_message: 'The keyboard arrived with two sticky keys. I would like a refund or partial discount.',
+      amount_cents: 8500,
+      status: 'new',
+      available_actions: ['refund', 'reply'],
+      simulated: true,
+    });
 
-  logger.info('Seeded refund requests (Earbuds auto candidate, Keyboard approval candidate)');
+    logger.info('Seeded demo refund requests');
+  } else {
+    logger.info('Live sandbox mode: skipping mock orders/cases, syncing only from live PayPal API');
+  }
 
-  // 4. Sync disputes from PayPal (real sandbox or fake)
+  // 3. Sync disputes from PayPal (real sandbox or fake)
   const paypal = createPayPal();
   const syncResult = await syncCases(db, paypal);
   logger.info('Synced PayPal disputes into cases', syncResult);
