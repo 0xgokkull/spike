@@ -26,9 +26,22 @@ export interface CaptureOrderResult {
   currency?: string;
 }
 
+export function resolveBaseUrl(): string {
+  if (typeof window !== 'undefined' && window.location.origin) {
+    return window.location.origin;
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return env.APP_BASE_URL || 'http://localhost:3001';
+}
+
 export async function createPayPalOrder(params: CreateOrderParams): Promise<CreateOrderResult> {
   const currency = params.currency || 'USD';
-  const defaultBaseUrl = env.APP_BASE_URL || 'http://localhost:3001';
+  const defaultBaseUrl = resolveBaseUrl();
   const payload = {
     intent: 'CAPTURE',
     purchase_units: [
