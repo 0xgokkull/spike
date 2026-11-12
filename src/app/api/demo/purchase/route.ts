@@ -18,6 +18,8 @@ const PurchaseSchema = z.object({
   action: z.enum(['create', 'capture', 'instant']).default('instant'),
   scenario: z.enum(['earbuds_auto', 'watch_contest', 'keyboard_approval', 'backpack_snooze']),
   orderId: z.string().optional(),
+  returnUrl: z.string().optional(),
+  cancelUrl: z.string().optional(),
 });
 
 async function ensurePolicy(db: DbClient) {
@@ -123,11 +125,16 @@ export const POST = handler({
     // 1. ACTION = CREATE (Create real order on PayPal Sandbox API)
     if (input.action === 'create') {
       try {
+        const defaultBase = env.APP_BASE_URL || 'http://localhost:3001';
+        const returnUrl = input.returnUrl || `${defaultBase}/?scenario=${input.scenario}`;
+        const cancelUrl = input.cancelUrl || `${defaultBase}/`;
         const orderResult = await createPayPalOrder({
           item: details.item,
           amount: details.amount,
           currency: details.currency,
           referenceId: `REF-${input.scenario}-${suffix}`,
+          returnUrl,
+          cancelUrl,
         });
 
         return {
