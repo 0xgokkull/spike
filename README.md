@@ -6,6 +6,8 @@
 
 > A daily, deadline-driven operations desk where an AI agent resolves PayPal refund requests and customer disputes for online sellers under strict, deterministic supervised autonomy. It acts on its own inside limits the seller sets, and asks before anything material.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-spike--paypal.vercel.app-black?logo=vercel)](https://spike-paypal.vercel.app/)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?logo=youtube)](https://youtu.be/KnEOE6LBpqY)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-0xgokkull%2Fspike-blue?logo=github)](https://github.com/0xgokkull/spike)
 [![Tests](https://img.shields.io/badge/Vitest-51%20passing-brightgreen)](https://github.com/0xgokkull/spike)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15%20App%20Router-black?logo=next.js)](https://nextjs.org/)
@@ -13,6 +15,8 @@
 [![Groq Fast Inference](https://img.shields.io/badge/Groq-Qwen%2027B%20JSON-orange)](https://groq.com)
 [![AG Grid](https://img.shields.io/badge/AG%20Grid-v33%20Enterprise%20Ready-00A389)](https://www.ag-grid.com)
 
+- **Live Deployment:** [https://spike-paypal.vercel.app/](https://spike-paypal.vercel.app/)
+- **Demo Video (YouTube):** [https://youtu.be/KnEOE6LBpqY](https://youtu.be/KnEOE6LBpqY)
 - **GitHub Repository:** [https://github.com/0xgokkull/spike.git](https://github.com/0xgokkull/spike.git)
 - **Status:** Feature complete for the **PayPal AI Hackathon 2026**. All 19 test suites and 51 unit, integration, and end-to-end tests passing.
 - **Environment:** **Sandbox only.** Pinned to `api-m.sandbox.paypal.com`. No live-money switch exists.
