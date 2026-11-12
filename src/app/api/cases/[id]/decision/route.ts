@@ -16,6 +16,8 @@ const DecisionSchema = z.object({
   until: z.string().optional(),
 });
 
+export const dynamic = 'force-dynamic';
+
 export const POST = handler({
   inputSchema: DecisionSchema,
   run: async (input, req) => {
