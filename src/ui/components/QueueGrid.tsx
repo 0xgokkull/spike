@@ -9,7 +9,6 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import type { CaseListItem, Reason } from '@/domain/types';
 import { StatusBadge } from '@/ui/primitives/StatusBadge';
 import { ModeBadge } from '@/ui/primitives/ModeBadge';
-import { SimulatedLabel } from '@/ui/primitives/SimulatedLabel';
 import { DeadlineChip } from '@/ui/primitives/DeadlineChip';
 import { Money } from '@/ui/primitives/Money';
 import { formatMoney } from '@/lib/money';
@@ -61,7 +60,6 @@ export function QueueGrid({ items, onSelect, selectedId, isLoading = false }: Qu
               <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium border border-slate-200/60 uppercase tracking-tight">
                 {params.data.source === 'dispute' ? 'Dispute' : 'Refund'}
               </span>
-              {params.data.simulated && <SimulatedLabel />}
             </div>
           );
         },
