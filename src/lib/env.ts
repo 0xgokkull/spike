@@ -14,7 +14,7 @@ const envSchema = z.object({
   GROQ_API_KEY: z.string().optional().default(''),
   LLM_API_KEY: z.string().optional().default(''),
   LLM_MODEL: z.string().default('qwen/qwen3.8-27b'),
-  APP_BASE_URL: z.string().default('http://localhost:3000'),
+  APP_BASE_URL: z.string().default('http://localhost:3001'),
   DEMO_MODE: z.preprocess((val) => val === 'true' || val === true || val === '1', z.boolean()).default(true),
 });
 
