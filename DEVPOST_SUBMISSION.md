@@ -3,6 +3,8 @@
 ## 1. Basic Information
 - **Project Title:** Spike
 - **Tagline (under 140 chars):** A daily queue where an AI agent resolves PayPal refund requests and disputes for online sellers under supervised autonomy.
+- **Live Demo:** [https://spike-paypal.vercel.app/](https://spike-paypal.vercel.app/)
+- **YouTube Video Demo:** [https://youtu.be/KnEOE6LBpqY](https://youtu.be/KnEOE6LBpqY)
 - **GitHub Repository:** [https://github.com/0xgokkull/spike.git](https://github.com/0xgokkull/spike.git)
 - **Primary Category / Tracks:**
   - 🥇 **Best Use of PayPal + AI**
