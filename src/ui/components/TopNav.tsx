@@ -20,7 +20,7 @@ export function TopNav() {
           </div>
           <div className="flex flex-col">
             <span className="font-semibold text-sm tracking-tight text-slate-100 group-hover:text-white transition-colors leading-tight">
-              Resolution Desk
+              Spike
             </span>
             <span className="text-[9px] text-slate-400 font-mono tracking-widest uppercase leading-none mt-0.5">
               Supervised PayPal Autonomy
