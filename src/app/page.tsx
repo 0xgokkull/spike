@@ -17,7 +17,7 @@ export default function QueuePage() {
   const [activeBucket, setActiveBucket] = useState<'all' | 'actionable' | 'waiting' | 'snoozed' | 'resolved'>('all');
   const [isSyncing, setIsSyncing] = useState(false);
 
-  const { data: cases = [], mutate, isValidating } = useSWR<CaseListItem[]>(
+  const { data: cases = [], mutate, isValidating, isLoading } = useSWR<CaseListItem[]>(
     activeBucket === 'all' ? '/api/cases' : `/api/cases?bucket=${activeBucket}`,
     fetcher
   );
@@ -192,6 +192,7 @@ export default function QueuePage() {
           items={cases}
           onSelect={(id) => setSelectedCaseId(id)}
           selectedId={selectedCaseId}
+          isLoading={isLoading}
         />
 
         {/* 5. Slide-over Case Drawer */}
