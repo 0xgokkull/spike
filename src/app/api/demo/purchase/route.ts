@@ -109,9 +109,27 @@ function getScenarioDetails(scenario: string) {
   }
 }
 
+function getRequestOrigin(req: Request): string {
+  const forwardedHost = req.headers.get('x-forwarded-host') || req.headers.get('host');
+  const forwardedProto = req.headers.get('x-forwarded-proto') || 'https';
+  if (forwardedHost) {
+    const proto = forwardedHost.includes('localhost') || forwardedHost.includes('127.0.0.1')
+      ? 'http'
+      : forwardedProto;
+    return `${proto}://${forwardedHost}`;
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return env.APP_BASE_URL || 'http://localhost:3001';
+}
+
 export const POST = handler({
   inputSchema: PurchaseSchema,
-  run: async (input) => {
+  run: async (input, req) => {
     if (!env.DEMO_MODE) {
       throw new AppError('FORBIDDEN_DEMO', 'Purchase demo endpoint is disabled in production');
     }
@@ -125,9 +143,9 @@ export const POST = handler({
     // 1. ACTION = CREATE (Create real order on PayPal Sandbox API)
     if (input.action === 'create') {
       try {
-        const defaultBase = env.APP_BASE_URL || 'http://localhost:3001';
-        const returnUrl = input.returnUrl || `${defaultBase}/?scenario=${input.scenario}`;
-        const cancelUrl = input.cancelUrl || `${defaultBase}/`;
+        const baseOrigin = getRequestOrigin(req);
+        const returnUrl = input.returnUrl || `${baseOrigin}/?scenario=${input.scenario}`;
+        const cancelUrl = input.cancelUrl || `${baseOrigin}/`;
         const orderResult = await createPayPalOrder({
           item: details.item,
           amount: details.amount,
