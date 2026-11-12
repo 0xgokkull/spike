@@ -10,69 +10,79 @@ export function SpikeLogo({ className = '', size = 32 }: SpikeLogoProps) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 36 36"
+      viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`flex-shrink-0 transition-transform duration-200 group-hover:scale-105 ${className}`}
     >
       <defs>
-        {/* PayPal Iconic Dual-Tone Gradients */}
-        <linearGradient id="spikeBg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#00186B" />
-          <stop offset="50%" stopColor="#003B99" />
+        {/* Background Squircle Gradient */}
+        <linearGradient id="spikeBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#0B132B" />
+          <stop offset="100%" stopColor="#050814" />
+        </linearGradient>
+
+        {/* PayPal Deep Blue Monogram Layer */}
+        <linearGradient id="ppDeepLayer" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#001C66" />
+          <stop offset="100%" stopColor="#003087" />
+        </linearGradient>
+
+        {/* PayPal Electric Cyan Spike Layer */}
+        <linearGradient id="ppCyanSpike" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00E5FF" />
+          <stop offset="50%" stopColor="#0099FF" />
           <stop offset="100%" stopColor="#0066CC" />
         </linearGradient>
 
-        <linearGradient id="spikeCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#00E5FF" />
-          <stop offset="100%" stopColor="#0099FF" />
+        {/* Luminous Intersection Glow */}
+        <linearGradient id="ppCoreGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00F0FF" />
+          <stop offset="100%" stopColor="#0052FF" />
         </linearGradient>
 
-        <linearGradient id="spikeWhite" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFFFFF" />
-          <stop offset="100%" stopColor="#E0F2FE" />
-        </linearGradient>
-
-        <filter id="spikeGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#001040" floodOpacity="0.4" />
+        <filter id="spikeShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1.5" stdDeviation="2" floodColor="#000B26" floodOpacity="0.5" />
         </filter>
       </defs>
 
-      {/* Modern Gradient Squircle Base */}
-      <rect width="36" height="36" rx="9" fill="url(#spikeBg)" />
+      {/* Premium Dark Navy Squircle Base with Metallic Border */}
+      <rect width="40" height="40" rx="10" fill="url(#spikeBgGrad)" />
       <rect
-        width="36"
-        height="36"
-        rx="9"
-        stroke="rgba(255, 255, 255, 0.18)"
-        strokeWidth="1"
+        width="40"
+        height="40"
+        rx="10"
+        stroke="rgba(0, 229, 255, 0.25)"
+        strokeWidth="1.2"
       />
 
-      {/* Bold Forward-Leaning Spike Monogram (12-deg slant) */}
-      <g transform="skewX(-10) translate(4, 2)" filter="url(#spikeGlow)">
-        {/* Top Arc: Electric PayPal Cyan */}
+      {/* PayPal Dual-Tone Interlocking Monogram Slanted at -11deg */}
+      <g transform="skewX(-11) translate(5, 3)" filter="url(#spikeShadow)">
+        {/* Base Layer: Deep PayPal Blue Foundation Path */}
         <path
-          d="M17.5 7H11.5C9.5 7 8 8.5 8 10.5C8 12.5 9.5 14 11.5 14H15C16.8 14 18 15.2 18 17C18 18.8 16.5 20 14.5 20H8.5"
-          stroke="url(#spikeCyan)"
-          strokeWidth="3.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
+          d="M10 8C10 6.9 10.9 6 12 6H18C22.4 6 25 8.5 25 12C25 15.2 22.8 17.5 19 17.9L16.2 18.2C15.5 18.3 15 18.9 15 19.6V26C15 27.1 14.1 28 13 28H10C8.9 28 8 27.1 8 26V10C8 8.9 8.9 8 10 8Z"
+          fill="url(#ppDeepLayer)"
         />
 
-        {/* Dynamic Forward Spike / Bolt Accent */}
+        {/* Forward Dynamic Spike: Electric Cyan & Royal Blue Overlap forming 'S' */}
         <path
-          d="M12.5 11L18.5 17L13 22.5"
-          stroke="url(#spikeWhite)"
-          strokeWidth="2.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-          opacity="0.95"
+          d="M16 12C16 10.9 16.9 10 18 10H23C26.5 10 29 12.2 29 15.5C29 18.4 27 20.6 23.8 21.1L20.5 21.6C19.7 21.7 19 22.4 19 23.2V30C19 31.1 18.1 32 17 32H14C12.9 32 12 31.1 12 30V18C12 14.7 13.8 12 16 12Z"
+          fill="url(#ppCyanSpike)"
+          fillOpacity="0.95"
         />
 
-        {/* PayPal Intersection Core Dot */}
-        <circle cx="15" cy="14" r="1.5" fill="#00E5FF" />
+        {/* Dynamic Forward Slash / Lightning Bolt Accent */}
+        <path
+          d="M14 20L22 14L18 25L26 19"
+          stroke="url(#ppCoreGlow)"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          opacity="0.9"
+        />
+
+        {/* Luminous Apex Dot */}
+        <circle cx="26" cy="19" r="1.8" fill="#FFFFFF" />
       </g>
     </svg>
   );
