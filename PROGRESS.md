@@ -72,9 +72,7 @@ Legend: `[ ]` todo · `[~]` in progress (add agent name) · `[x]` done
 - [x] U2 `QueueGrid` (AG Grid) and `SyncBar` (Antigravity)
 - [x] U3 `CaseDrawer`, `ProvenancePanel`, `EvidenceChecklist`, `ActionBar`, dialogs (Antigravity)
 - [x] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay` (Antigravity)
-- [x] U5 Demo controls (advance day, reset) and queue page (Antigravity)
-- [ ] U4 Day Close page: `DayCloseGate`, `DayCloseGrid`, `AckList`, `closeDay`
-- [ ] U5 Demo controls (advance day, reset) and `SimulatedLabel`
+- [x] U5 Demo controls (advance day, reset), queue page, and `SimulatedLabel` (Antigravity)
 
 ### Step 7: End-to-end (16:00–18:00, 12 Nov)
 - [x] V1 `tests/e2e/demo.test.ts` passes (Antigravity)
