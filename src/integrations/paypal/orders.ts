@@ -8,6 +8,8 @@ export interface CreateOrderParams {
   amount: string; // e.g. "20.00"
   currency?: string;
   referenceId: string;
+  returnUrl?: string;
+  cancelUrl?: string;
 }
 
 export interface CreateOrderResult {
@@ -26,6 +28,7 @@ export interface CaptureOrderResult {
 
 export async function createPayPalOrder(params: CreateOrderParams): Promise<CreateOrderResult> {
   const currency = params.currency || 'USD';
+  const defaultBaseUrl = env.APP_BASE_URL || 'http://localhost:3001';
   const payload = {
     intent: 'CAPTURE',
     purchase_units: [
@@ -39,8 +42,8 @@ export async function createPayPalOrder(params: CreateOrderParams): Promise<Crea
       },
     ],
     application_context: {
-      return_url: `${env.APP_BASE_URL}/`,
-      cancel_url: `${env.APP_BASE_URL}/`,
+      return_url: params.returnUrl || `${defaultBaseUrl}/`,
+      cancel_url: params.cancelUrl || `${defaultBaseUrl}/`,
       user_action: 'PAY_NOW',
     },
   };
