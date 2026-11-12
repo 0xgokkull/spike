@@ -191,6 +191,7 @@ export const POST = handler({
         deadline_at: details.source === 'dispute' ? new Date(now.getTime() + 10 * 86400000) : null,
         available_actions: details.available_actions,
         order_id: order.id,
+        paypal_dispute_id: details.source === 'dispute' ? `PP-D-${suffix}` : null,
         simulated: false,
       });
 
@@ -252,6 +253,7 @@ export const POST = handler({
       deadline_at: details.source === 'dispute' ? new Date(now.getTime() + 10 * 86400000) : null,
       available_actions: details.available_actions,
       order_id: order.id,
+      paypal_dispute_id: details.source === 'dispute' ? `PP-D-${suffix}` : null,
       simulated: false,
     });
 
