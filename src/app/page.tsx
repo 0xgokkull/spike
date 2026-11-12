@@ -8,7 +8,7 @@ import { QueueGrid } from '@/ui/components/QueueGrid';
 import { CaseDrawer } from '@/ui/components/CaseDrawer';
 import { PurchaseModal } from '@/ui/components/PurchaseModal';
 import { Money } from '@/ui/primitives/Money';
-import { Layers, AlertTriangle, CheckCircle, Scale, ShieldCheck } from 'lucide-react';
+import { Layers, AlertTriangle, CheckCircle, Scale, ShieldCheck, Loader2 } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -17,12 +17,60 @@ export default function QueuePage() {
   const [activeBucket, setActiveBucket] = useState<'all' | 'actionable' | 'waiting' | 'snoozed' | 'resolved'>('all');
   const [isSyncing, setIsSyncing] = useState(false);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [returnBanner, setReturnBanner] = useState<{ type: 'loading' | 'success' | 'error'; message: string } | null>(null);
 
   // Always fetch full cases list so overall business KPI cards and tab badges stay accurate
   const { data: allCases = [], mutate, isValidating, isLoading } = useSWR<CaseListItem[]>(
     '/api/cases',
     fetcher
   );
+
+  // Auto-capture when returning from PayPal Sandbox redirect
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const payerId = urlParams.get('PayerID');
+    const scenario = (urlParams.get('scenario') || 'keyboard_approval') as any;
+
+    if (token && payerId) {
+      window.history.replaceState({}, '', window.location.pathname);
+      setReturnBanner({ type: 'loading', message: `Verifying & capturing PayPal payment (${token})...` });
+
+      fetch('/api/demo/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'capture',
+          scenario,
+          orderId: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.ok && data.caseId) {
+            setReturnBanner({
+              type: 'success',
+              message: `Payment captured successfully! New case for "${data.item}" ingested with AI policy recommendation.`,
+            });
+            mutate();
+            setSelectedCaseId(data.caseId);
+            setTimeout(() => setReturnBanner(null), 8000);
+          } else {
+            setReturnBanner({
+              type: 'error',
+              message: data.message || data.error || 'Failed to capture PayPal payment',
+            });
+          }
+        })
+        .catch((err) => {
+          setReturnBanner({
+            type: 'error',
+            message: err.message || 'Error capturing PayPal payment',
+          });
+        });
+    }
+  }, [mutate]);
 
   const handleSync = async () => {
     setIsSyncing(true);
@@ -87,6 +135,32 @@ export default function QueuePage() {
           onAdvanceDay={() => mutate()}
           onReset={() => mutate()}
         />
+
+        {/* PayPal Return Auto-Capture Banner */}
+        {returnBanner && (
+          <div
+            className={`p-4 rounded-xl border flex items-center justify-between transition-all shadow-xs ${
+              returnBanner.type === 'loading'
+                ? 'bg-blue-50 border-blue-200 text-blue-900'
+                : returnBanner.type === 'success'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                : 'bg-rose-50 border-rose-200 text-rose-900'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              {returnBanner.type === 'loading' && <Loader2 className="w-5 h-5 animate-spin text-blue-600 shrink-0" />}
+              {returnBanner.type === 'success' && <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />}
+              {returnBanner.type === 'error' && <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />}
+              <span className="text-sm font-medium">{returnBanner.message}</span>
+            </div>
+            <button
+              onClick={() => setReturnBanner(null)}
+              className="text-xs opacity-60 hover:opacity-100 px-2 py-1 font-semibold rounded hover:bg-black/5"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         {/* 2. Executive Overview Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
